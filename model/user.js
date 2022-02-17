@@ -12,7 +12,7 @@ const Userschema = new  mongoose.Schema({
     Password:{
         type:String,
     }
-})
+},{timestamps:true})
 
 const Userdb = mongoose.model("user",Userschema)
 module.exports = Userdb
