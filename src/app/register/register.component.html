@@ -1,0 +1,34 @@
+<div class="toolbar" role="banner">
+    <h3 class="bg-success">User Registration</h3>
+    </div>
+<form [formGroup] = 'Regform' (ngSubmit)="reguser()">
+  <h2>User registration</h2>
+  <span >Register your account</span><br>
+  <label>FirstName</label>
+  <input type="text" name="fname" formControlName="fname" class="form-control" placeholder="Firstname"><br>
+  <p class="error" *ngIf="fname && fname.invalid && fname.touched" >FirstName is Required</p>
+  <label>LastName</label>
+  <input type="text" name="lname" formControlName="lname" class="form-control" placeholder="Lastname"><br>
+  <p class="error" *ngIf="lname && lname.invalid && lname.touched" >LastName is Required</p>
+  <label>Email</label>
+  <input type="email" name="email" formControlName="email" class="form-control" placeholder="Email"><br>
+  <p class="error" *ngIf="email && email.invalid && email.touched" >Email is Required</p>
+  <p class="error" *ngIf="emailformat && emailformat.invalid && emailformat.touched">Please enter a valid Email</p>
+  <label>Date of Birth</label>
+  <input type="date" name="dob" formControlName="dob" class="form-control" placeholder="Date of Birth"><br>
+  <p class="error" *ngIf="dob && dob.invalid && dob.touched" >Date of Birth is Required</p>
+  <label>Gender</label>
+ <select formControlName="gender" name="gender"><br>
+   <option value="Male">Male</option>
+   <option value="Female">Female</option>
+ </select><br>
+  <label>Profession</label>
+  <input type="text" name="prof" formControlName="prof" class="form-control" placeholder="Proffession"><br>
+  <p class="error" *ngIf="prof && prof.invalid && prof.touched" >Profession is Required</p>
+  <label>Password</label>
+  <input type="password" class="form-control" formControlName="password" name="password" placeholder="Password"><br>
+  <p class="error" *ngIf="password && password.invalid && password.touched" >Password is Required</p>
+  <p class="error" *ngIf="passwordlength && passwordlength.invalid && passwordlength.touched" >Password must be atleast 6 characters long</p>
+  <button [disabled] = "Regform.invalid" class="submit " type="submit" mat-button color="accent">Submit</button><br>
+</form>
+<router-outlet></router-outlet>

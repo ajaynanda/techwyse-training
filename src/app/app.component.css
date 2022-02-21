@@ -1,0 +1,45 @@
+.toolbar {
+    position: absolute;
+    top: 0;
+    left: 0px;
+    right: 0;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    background-color: blue;
+    color: white;
+    font-weight: 600;
+  }
+  .toolbar span{
+    margin-left: 20px;
+  }
+  .content {
+    display: flex;
+    margin: 82px auto 32px;
+    padding: 0 16px;
+    max-width: 960px;
+    flex-direction: column;
+    align-items: center;
+  }
+  h3{
+    margin-top: 90px;
+    text-align: center;
+    font: weight 900px;
+    color: white;
+  }
+  
+  #reglognav{
+    margin-left: auto;
+    margin-right: 80px;
+    
+  }
+  .navbutton{
+    padding: 5px;
+    margin: 30px;
+    
+  }
+  a{
+    text-decoration: none;
+    color: white;
+    padding: 5px;
+  }

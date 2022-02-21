@@ -1,0 +1,18 @@
+ <div class="toolbar" role="banner">
+  <h3 class="bg-success">User Login</h3>
+</div>
+  <form [formGroup] = 'Loginform' (ngSubmit)="loguser()" >
+    <h2>User Login</h2>
+    <span >Login to your account</span><br>
+    <label>Email</label>
+    <input type="email" name="email" formControlName="email" placeholder="Email"><br>
+    <p class="error" *ngIf="email && email.invalid && email.touched">Email is Required</p>
+    <p class="error" *ngIf="emailformat && emailformat.invalid && emailformat.touched">Please Enter a valid Email</p>
+    <label>Password</label>
+    <input type="password" name="password" formControlName="password"  placeholder="Password"><br>
+    <p class="error" *ngIf="password && password.invalid && password.touched">Please enter Password</p>
+    <p class="error" *ngIf="passwordlength && passwordlength.invalid && passwordlength.touched">Password is not havng valid characters</p>
+    <button [disabled] = "Loginform .invalid" class="submit " type="submit" mat-button color="accent">Submit</button><br>
+  </form>
+  <router-outlet></router-outlet>
+  
