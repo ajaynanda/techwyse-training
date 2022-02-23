@@ -3,21 +3,20 @@ const Userdb = require("../model/user")
 const { check, validationResult } = require("express-validator")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
-exports.Register = ([
+const Register = ([
     check("fname", "Enter Firtsname")
         .exists(),
     check("lname", "Enter Lastname")
         .exists(),
     check("password", "password must be atleast 6 Characters long")
-        .exists().isLength({ min: 6 }),
+        .exists()
+        .isLength({ min: 6 }),
     check('email', "Email is not valid")
         .isEmail()
         .normalizeEmail()
-], (req, res) => {
+], (req, res,next) => {
     Userdb.findOne({ Email: req.body.email }).then(async (user) => {
         const errors = validationResult(req)
-        console.log(validationResult);
-        console.log(errors);
         if (!errors.isEmpty()) {
             return res.status(401).json({ errors: errors.array() })
         }
@@ -26,7 +25,6 @@ exports.Register = ([
             return res.status(401).json({
                 error: true,
                 message: "Email already exists",
-                data: user
             })
         } else {
             const hashpassword = await bcrypt.hash(req.body.password, 10)
@@ -40,21 +38,19 @@ exports.Register = ([
                 Proffession: req.body.prof
             })
             user.save(user).then(() => {
-                return res.status(201).json({
-                    success: true,
-                    message: "You are registered",
-                    data: user
-                })
+                if(user){
+                    req.data = user
+                        next()
+                }
             }).catch(() => {
                 return res.status(401).json({
-
                     message: "Email already exists",
                 })
             })
         }
     })
 })
-exports.Login = ((req, res) => {
+const Login = ((req, res,next) => {
     Userdb.findOne({ Email: req.body.email }).then((user) => {
         if (!user) {
             res.status(401).json({ Error: true, Message: "no user found" })
@@ -62,7 +58,7 @@ exports.Login = ((req, res) => {
         if (user) {
             const password = user.Password
             bcrypt.compare(req.body.password, password).then((users) => {
-               
+                console.log(users);
                 if (!users) {
                     res.status(401).json({ Error: true, Message: "password incorrect" })
                 }
@@ -79,12 +75,9 @@ exports.Login = ((req, res) => {
                         sameSite: 'lax'
                     })
                     console.log(req.cookies);
-                    res.status(200).json({
-                        success: true,
-                        Message: "You are logged in",
-                        token: token,
-                        id: user.id
-                    })
+                req.token = token 
+                req.userid = user.id
+                    next()
                 }
             }).catch((err) => {
                 console.log(err);
@@ -92,22 +85,24 @@ exports.Login = ((req, res) => {
         }
     })
 })
-exports.getuserById = ((req, res) => {
+const getuserById = ((req, res,next) => {
     const id = req.params.id
     Userdb.findById(id).then((user) => {
-        res.status(200).json({ success: true, data: user })
+        req.user = user
+        next()
     }).catch((err) => {
         res.status(404).json({ Error: true, Message: "User not found with the id " + id })
     })
 })
-exports.getAllUser = ((req, res) => {
+const getAllUser = ((req, res,next) => {
     Userdb.find().then((user) => {
-        res.send(user)
+         req.users = user
+        next()
     }).catch((err) => {
         res.send(err)
     })
 })
-exports.updateUserById = ((req, res) => {
+const updateUserById = ((req, res,next) => {
     const id = req.params.id
     const user = ({
         Firstname: req.body.fname,
@@ -118,49 +113,63 @@ exports.updateUserById = ((req, res) => {
         Proffession: req.body.prof
     })
         Userdb.findByIdAndUpdate(id, user).then((users) => {
-           return res.status(200).json(users)
+            req.name=users.Firstname
+            req.users = users
+            next()
         }).catch(err=>{
-            res.status(401).json("User not found")
+            res.status(401).json({Error:true,
+                message:"User not found"})
         })
 })
-exports.Deleteuser=((req,res)=>{
+const Deleteuser=((req,res,next)=>{
     const id =req.params.id
     Userdb.findByIdAndDelete(id).then((user)=>{
-res.status(200).json(`user deleted with name  ${user.Firstname}`)
+        req.user = user
+        next()
     }).catch(err=>{
-        res.status(401).json("user not found")
+        res.status(401).json({Error:true,
+            message:"user not found"})
     })
 })
-exports.Logout = ((req,res)=>{
+const Logout = ((req,res,next)=>{
     console.log(req.session); 
      req.session.destroy(function(err){  
         if(err) console.log(err);  
          else  
         {  
-            res.status(200).json("User Logged out")
+        next()
         }  
 })
 })
-exports.ChangePassword =((req,res)=>{
+const ChangePassword =(async(req,res,next)=>{
     const id = req.params.id
     Userdb.findById(id).then(async(user)=>{
-        if(!user){
-            res.status(401).json("Not found the user")
-        }else{
-           
-             const hashpassword = await    bcrypt.hash(req.body.npassword,10)
+                const comparepassword =await bcrypt.compare(req.body.opassword,user.Password)
+                if(!comparepassword){
+                  return  res.status(401).json({
+                        error:true,
+                        message:"Password not matching"
+                    })
+                }else{
+                    console.log("done");
+                    const hashpassword = await  bcrypt.hash(req.body.npassword,10)
                     console.log(hashpassword);
-                    Userdb.findByIdAndUpdate(id,{Password:npassword}).then((res)=>{
-                        return  res.status(401).json("Password changed of user" + res)
+                    const password ={
+                       Password: hashpassword
+                    }
+                    Userdb.findByIdAndUpdate(id,password).then((res)=>{
+                        req.user = res
+                        next()
                     }).catch(err=>{
                       return  res.status(401).json("Error updating password")
                     })
                 }
+                  
         }).catch(err=>{
-      res.status(401).json("user not found")
-    })
-}) 
-exports.verifytoken = ((req, res, next) => {
+            return  res.status(401).json("Not found the user")
+        })
+})
+const verifytoken = ((req, res, next) => {
     let authHeader = req.headers.authorization;
     if (authHeader == undefined) {
         res.status(401).json({ Error: true, Message: "You have already loggedout or no token found" })
@@ -174,3 +183,14 @@ exports.verifytoken = ((req, res, next) => {
     }))
 
 })
+module.exports={
+    Login,
+    Logout,
+    verifytoken,
+    ChangePassword,
+    getAllUser,
+    getuserById,
+    updateUserById,
+    Deleteuser,
+    Register
+}

@@ -6,5 +6,6 @@ router.get("/getuser/:id", Controller.verifytoken,Controller.getuserById)
 router.get('/getalluser',Controller.getAllUser)
 router.put('/updateuser/:id',Controller.verifytoken,Controller.updateUserById)
 router.delete('/deleteuser/:id',Controller.verifytoken,Controller.Deleteuser)
+router.get('/changepassword/:id',Controller.ChangePassword)
 router.get('/logout',Controller.Logout)
 module.exports = router
