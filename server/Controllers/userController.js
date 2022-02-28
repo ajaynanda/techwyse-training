@@ -19,7 +19,7 @@ const Register = ([
         Userdb.findOne({ Email: req.body.email }).then(async (user) => {
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
-                return res.status(401).json({ errors: errors.array() })
+                return reject({ errors: errors.array() })
             }
             if (user) {
                 console.log("email already exists");
@@ -83,7 +83,6 @@ const Login = ((req, res) => {
             }
         })
     })
-
 })
 const getuserById = ((req, res) => {
 
@@ -96,17 +95,15 @@ const getuserById = ((req, res) => {
             return reject({ Error: true, Message: "User not found with the id " + id })
         })
     })
-
 })
 const getAllUser = (() => {
     return new Promise((resolve, reject) => {
-        Userdb.find().limit(5).sort({'Firstname':1}).then((user) => {
+        Userdb.find().limit(5).sort({ 'Firstname': 1 }).then((user) => {
             return resolve(user)
         }).catch((err) => {
             return reject(err)
         })
     })
-
 })
 const updateUserById = ((req, res) => {
     return new Promise((resolve, reject) => {
