@@ -1,64 +1,122 @@
 const router = require("express").Router()
 const Controllers = require('../Controllers/userController')
-router.post('/register',((req,res)=>{
-        Controllers.Register().then((result)=>{
+router.post('/register', ((req, res) => {
+        Controllers.Register(req, res).then((result) => {
                 return res.status(201).json({
                         success: true,
                         message: "You are registered",
-                        data:result
-        })
- 
-})
-}))
-router.post('/login',Controllers.Login,((req,res)=>{
-       return res.status(200).json({
-                success: true,
-                Message: "You are logged in",
-                token: req.token,
-                user: req.user
-            })
-}))
-router.get('/getuser:id',((req,res)=>{
-        const id = req.params.id
-        console.log(id);
-        Controllers.getuserById().then((result)=>{
-                return  res.status(200).send({ 
-                        success: true, 
-                        data:result})
-        })
-      
-}))
-router.get('/getalluser',((req,res)=>{
-        Controllers.getAllUser().then((result)=>{
-                return res.status(200).json(
-                        {success:true,
-                        data:result})
-        })
-        
-}))
-router.put('/updateuser/:id',Controllers.verifytoken,Controllers.updateUserById,((req,res)=>{
-       return res.status(200).json({success:true,
-        message:"Updated Sucessfully",
-        data:req.users})
-}))
-router.delete('/deleteuser/:id',Controllers.verifytoken,Controllers.Deleteuser,((req,res)=>{
-        return res.status(200).json({
-                success:true,
-                message:"user deleted sucessfully",
-                userDeleted:req.user
+                        data: result
                 })
-}))
-router.put('/changepassword/:id',Controllers.verifytoken,Controllers.ChangePassword,((req,res)=>{
-        res.status(200).json({
-                success:true,
-                message:"Password changed succesfully",
-                user:req.user
+
+        }).catch(err => {
+                return res.status(401).json({
+                        err
+                })
         })
 }))
-router.get('/logout',Controllers.verifytoken,Controllers.Logout,((req,res)=>{
-        res.status(200).json({
-                success:true,
-                message:'User logged out'
+router.post('/login', ((req, res) => {
+        Controllers.Login(req, res).then((result) => {
+                return res.status(200).json({
+                        success: true,
+                        Message: "You are logged in",
+                        token: req.token,
+                        user: result
+                })
+        }).catch(err => {
+                res.status(401).json(err)
         })
+
+}))
+router.get('/getuser/:id', ((req, res) => {
+        Controllers.verifytoken(req, res).then((results) => {
+                Controllers.getuserById(req, res).then((result) => {
+                        return res.status(200).send({
+                                success: true,
+                                data: result
+                        })
+                }).catch(err => {
+                        return res.status(401).json({
+                                err
+                        })
+                })
+        }).catch(err => {
+                return res.status(401).json(err)
+        })
+}))
+router.get('/getalluser', ((req, res) => {
+        Controllers.getAllUser().then((result) => {
+                return res.status(200).json(
+                        {
+                                success: true,
+                                data: result
+                        })
+        })
+
+}))
+router.put('/updateuser/:id', ((req, res) => {
+        Controllers.verifytoken(req, res).then((results) => {
+                console.log(results);
+                Controllers.updateUserById(req, res).then((result) => {
+                        return res.status(200).json({
+                                success: true,
+                                message: "Updated Sucessfully",
+                                data: result
+                        })
+                }).catch(err => {
+                        return res.status(401).json({ err })
+                })
+        }).catch(err => {
+                return res.status(401).json(err)
+        })
+
+
+}))
+router.delete('/deleteuser/:id', ((req, res) => {
+        Controllers.verifytoken(req, res).then((results) => {
+                Controllers.Deleteuser(req, res).then((result) => {
+                        return res.status(200).json({
+                                success: true,
+                                message: "user deleted sucessfully",
+                                userDeleted: result
+                        })
+                }).catch(err => {
+                        return res.status(401).json({ err })
+                })
+        }).catch(err => {
+                return res.status(401).json(err)
+        })
+}))
+router.put('/changepassword/:id', ((req, res) => {
+        Controllers.verifytoken(req, res).then((results) => {
+                Controllers.ChangePassword(req, res).then((result) => {
+                        res.status(200).json({
+                                success: true,
+                                message: "Password changed succesfully",
+                                user: result
+                        })
+                }).catch(err => {
+                        return res.status(401).json({ err })
+                })
+        }).catch(err => {
+                return res.status(401).json(err)
+        })
+}))
+router.get('/logout', ((req, res, next) => {
+        Controllers.verifytoken(req, res).then((results) => {
+                console.log("Authenticated");
+                console.log(results);
+                Controllers.Logout(req, res).then((result) => {
+                        res.status(200).json({
+                                success: true,
+                                message: result
+                        })
+                }).catch(err => {
+                        return res.status(401).json(err)
+                })
+        }).catch(err => {
+                return res.status(401).json(err)
+        })
+
+
 }))
 module.exports = router

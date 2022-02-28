@@ -15,7 +15,7 @@ const Register = ([
         .isEmail()
         .normalizeEmail()
 ], (req, res) => {
-    return new Promise((resolve,reject)=>{
+    return new Promise((resolve, reject) => {
         Userdb.findOne({ Email: req.body.email }).then(async (user) => {
             const errors = validationResult(req)
             if (!errors.isEmpty()) {
@@ -23,10 +23,7 @@ const Register = ([
             }
             if (user) {
                 console.log("email already exists");
-                return res.status(401).json({
-                    error: true,
-                    message: "Email already exists",
-                })
+                return reject({ Error: true, Message: "Email already exists " })
             } else {
                 const hashpassword = await bcrypt.hash(req.body.password, 10)
                 const user = new Userdb({
@@ -39,32 +36,30 @@ const Register = ([
                     Proffession: req.body.prof
                 })
                 user.save(user).then(() => {
-                    if(user){
-                      return resolve(user)
+                    if (user) {
+                        return resolve(user)
                     }
                 }).catch(() => {
-                    return res.status(401).json({
-                        message: "something went wrong while registering",
-                    })
+                    return reject({ Error: true, Message: "Error while saving data " })
                 })
             }
         })
     })
-    
+
 })
-const Login = ((req, res,next) => {
-    return new Promise((resolve,reject)=>{
+const Login = ((req, res) => {
+    return new Promise((resolve, reject) => {
 
         Userdb.findOne({ Email: req.body.email }).then((user) => {
             if (!user) {
-                return  res.status(401).json({ Error: true, Message: "Email Incorrect" })
+                return reject({ Error: true, Message: "Email incorrect" })
             }
             if (user) {
                 const password = user.Password
                 bcrypt.compare(req.body.password, password).then((users) => {
                     console.log(users);
                     if (!users) {
-                        return res.status(401).json({ Error: true, Message: "Password incorrect" })
+                        return reject({ Error: true, Message: "Password Incorrect " })
                     }
                     if (users) {
                         const data = {
@@ -79,125 +74,128 @@ const Login = ((req, res,next) => {
                             sameSite: 'lax'
                         })
                         console.log(req.cookies);
-                    req.token = token 
-                    req.user = user
-                        next()
+                        req.token = token
+                        return resolve(user)
                     }
                 }).catch((err) => {
-                 return  reject(err);
+                    return reject(err);
                 })
             }
         })
     })
-   
-})
-const getuserById = ((req, res) => {
-    
-    return new Promise((resolve,reject)=>{
-        const id = req.query.id 
-        console.log(id);
-        Userdb.findById(id).then((user) => {
-          return resolve(user)
-        }).catch((err) => {
-            return reject({Error:true,Message:"User not found with the id " + id })
-        })
-    })
-  
-})
-const getAllUser = (() => {
-    return new Promise((resolve,reject)=>{
-        Userdb.find().then((user) => {
-           return resolve(user)
-       }).catch((err) => {
-         return  reject(err)
-       })
-    })
-    
-})
-const updateUserById = ((req, res,next) => {
-    const id = req.params.id
-    const user = ({
-        Firstname: req.body.fname,
-        Lastname: req.body.lname,
-        Email: req.body.email,
-        dateofbirth: req.body.dob,
-        Gender: req.body.gender,
-        Proffession: req.body.prof
-    })
-    if(!req.body){
-      return  res.status(500).json({message:"Enter all fields"})
-    }
-    console.log("update triggeredd in angular");
-        Userdb.findByIdAndUpdate(id, user).then((users) => {
-            req.name=users.Firstname
-            req.users = users
-            next()
-        }).catch(err=>{
-            res.status(401).json({Error:true,
-                message:"User not found"})
-        })
-})
-const Deleteuser=((req,res,next)=>{
-    const id =req.params.id
-    Userdb.findByIdAndDelete(id).then((user)=>{
-        req.user = user
-        next()
-    }).catch(err=>{
-        res.status(401).json({Error:true,
-            message:"user not found"})
-    })
-})
-const Logout = ((req,res,next)=>{
-    console.log(req.session); 
-     req.session.destroy(function(err){
-         res.status(200).json({message:"You have logged out"})  
-        if(err) console.log(err);  
-         else  
-        {  
-        next()
-        }  
-})
-})
-const ChangePassword =(async(req,res,next)=>{
-    const id = req.params.id
-    Userdb.findById(id).then(async(user)=>{
-                const comparepassword =await bcrypt.compare(req.body.opassword,user.Password)
-                if(!comparepassword){
-                  return  res.status(401).json({
-                        error:true,
-                        message:"Current Password is incorrect"
-                    })
-                }else{
-                    const hashpassword = await  bcrypt.hash(req.body.npassword,10)
-                    const password ={
-                       Password: hashpassword
-                    }
-                    Userdb.findByIdAndUpdate(id,password).then((res)=>{
-                        req.user = res
-                        next()
-                    }).catch(err=>{
-                      return  res.status(401).json("Error while Changing the password")
-                    })
-                }
-        }).catch(err=>{
-            return  res.status(401).json({message:"Not found the user"})
-        })
-})
-const verifytoken = ((req, res, next) => {
-    let authHeader = req.headers.authorization;
-    if (authHeader == undefined) {
-        res.status(401).json({ Error: true, message: "You have already loggedout or no token found" })
-    }
-    let token = authHeader.split(" ")[1]
-    jwt.verify(token, process.env.key, ((err, result) => {
-        if (err) res.status(401).json({ Error: true, message: "Authentication failed" })
-        else {
-            next()
-        }
-    }))
 
 })
-module.exports={
+const getuserById = ((req, res) => {
+
+    return new Promise((resolve, reject) => {
+        const id = req.params.id
+        console.log(id);
+        Userdb.findById(id).then((user) => {
+            return resolve(user)
+        }).catch((err) => {
+            return reject({ Error: true, Message: "User not found with the id " + id })
+        })
+    })
+
+})
+const getAllUser = (() => {
+    return new Promise((resolve, reject) => {
+        Userdb.find().limit(5).sort({'Firstname':1}).then((user) => {
+            return resolve(user)
+        }).catch((err) => {
+            return reject(err)
+        })
+    })
+
+})
+const updateUserById = ((req, res) => {
+    return new Promise((resolve, reject) => {
+        const id = req.params.id
+        const user = ({
+            Firstname: req.body.fname,
+            Lastname: req.body.lname,
+            Email: req.body.email,
+            dateofbirth: req.body.dob,
+            Gender: req.body.gender,
+            Proffession: req.body.prof
+        })
+        console.log("update triggeredd in angular");
+        Userdb.findByIdAndUpdate(id, user).then((users) => {
+            req.name = users.Firstname
+            return resolve(users)
+
+        }).catch(err => {
+            return reject({ Error: true, Message: "User not found with the id " + id })
+        })
+    })
+
+})
+const Deleteuser = ((req, res) => {
+    return new Promise((resolve, reject) => {
+        const id = req.params.id
+        Userdb.findByIdAndDelete(id).then((user) => {
+            return resolve(user)
+        }).catch(err => {
+            return reject({ Error: true, Message: "User not found with the id " + id })
+        })
+    })
+
+})
+const Logout = ((req, res, next) => {
+    return new Promise((resolve, reject) => {
+        console.log(req.session);
+        req.session.destroy(function (err) {
+            if (err) reject('You are unable to logout now')
+            else {
+                return resolve('You have Logged out')
+            }
+        })
+    })
+
+})
+const ChangePassword = (async (req, res, next) => {
+    return new Promise((resolve, reject) => {
+        const id = req.params.id
+        Userdb.findById(id).then(async (user) => {
+            const comparepassword = await bcrypt.compare(req.body.opassword, user.Password)
+            if (!comparepassword) {
+                return reject({
+                    error: true,
+                    message: "Current Password is incorrect"
+                })
+            } else {
+                const hashpassword = await bcrypt.hash(req.body.npassword, 10)
+                const password = {
+                    Password: hashpassword
+                }
+                Userdb.findByIdAndUpdate(id, password).then((res) => {
+                    return resolve(res)
+                }).catch(err => {
+                    return reject("Error while Changing the password")
+                })
+            }
+        }).catch(err => {
+            return reject({ Error: true, message: "Not found the user" })
+        })
+    })
+
+})
+const verifytoken = ((req, res) => {
+    return new Promise((resolve, reject) => {
+        let authHeader = req.headers.authorization;
+        if (authHeader == undefined) {
+            return reject({ Error: true, message: "You have already loggedout or no token found" })
+        }
+        let token = authHeader.split(" ")[1]
+        jwt.verify(token, process.env.key, ((err, result) => {
+            if (err) return reject({ Error: true, message: "Authentication failed" })
+            else {
+                resolve(token)
+            }
+        }))
+    })
+})
+module.exports = {
     Login,
     Logout,
     verifytoken,
