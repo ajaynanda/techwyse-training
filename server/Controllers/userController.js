@@ -4,15 +4,15 @@ const { check, validationResult } = require("express-validator")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
 const Register = ([
-    check("fname", "Enter Firtsname")
-        .exists(),
-    check("lname", "Enter Lastname")
-        .exists(),
-    check("password", "password must be atleast 6 Characters long")
+    check("fname")
+        .exists().withMessage("Enter Firtsname"),
+    check("lname")
+        .exists().withMessage("Enter Lastname"),
+    check("password")
         .exists()
-        .isLength({ min: 6 }),
-    check('email', "Email is not valid")
-        .isEmail()
+        .isLength({ min: 6 }).withMessage("password must be atleast 6 Characters long"),
+    check('email')
+        .isEmail().withMessage( "Email is not valid")
         .normalizeEmail()
 ], (req, res) => {
     return new Promise((resolve, reject) => {
@@ -40,12 +40,11 @@ const Register = ([
                         return resolve(user)
                     }
                 }).catch(() => {
-                    return reject({ Error: true, Message: "Error while saving data " })
+                    return reject({ Error: true, Message: "Enter all fields" })
                 })
             }
         })
     })
-
 })
 const Login = ((req, res) => {
     return new Promise((resolve, reject) => {
@@ -96,9 +95,35 @@ const getuserById = ((req, res) => {
         })
     })
 })
-const getAllUser = (() => {
+const Pagination = ((req, res) => {
     return new Promise((resolve, reject) => {
-        Userdb.find().limit(5).sort({ 'Firstname': 1 }).then((user) => {
+
+        Userdb.paginate({}, { page: req.query.page || 1, limit: req.query.limit || 5 })
+            .then((response) => {
+                resolve({ response })
+            }).catch(err => {
+                reject({ Error: true, message: "Pagination doesn't works" })
+            })
+    })
+})
+const search = ((req, res) => {
+    return new Promise(async (resolve, reject) => {
+        await Userdb.find(
+            {
+                '$or': [
+                    { 'Firstname': { $regex: req.params.key, $options: 'i' } }
+                ]
+            }
+        ).then((data) => {
+            resolve(data)
+        }).catch(err => {
+            reject({ message: "No results Found with keyword " + req.params.key })
+        })
+    })
+})
+const getAllUser = ((req, res) => {
+    return new Promise((resolve, reject) => {
+        Userdb.find({}).sort({ Firstname: 1 }).then((user) => {
             return resolve(user)
         }).catch((err) => {
             return reject(err)
@@ -125,7 +150,6 @@ const updateUserById = ((req, res) => {
             return reject({ Error: true, Message: "User not found with the id " + id })
         })
     })
-
 })
 const Deleteuser = ((req, res) => {
     return new Promise((resolve, reject) => {
@@ -136,7 +160,6 @@ const Deleteuser = ((req, res) => {
             return reject({ Error: true, Message: "User not found with the id " + id })
         })
     })
-
 })
 const Logout = ((req, res, next) => {
     return new Promise((resolve, reject) => {
@@ -148,7 +171,6 @@ const Logout = ((req, res, next) => {
             }
         })
     })
-
 })
 const ChangePassword = (async (req, res, next) => {
     return new Promise((resolve, reject) => {
@@ -175,7 +197,6 @@ const ChangePassword = (async (req, res, next) => {
             return reject({ Error: true, message: "Not found the user" })
         })
     })
-
 })
 const verifytoken = ((req, res) => {
     return new Promise((resolve, reject) => {
@@ -201,5 +222,7 @@ module.exports = {
     getuserById,
     updateUserById,
     Deleteuser,
-    Register
+    Register,
+    Pagination,
+    search
 }

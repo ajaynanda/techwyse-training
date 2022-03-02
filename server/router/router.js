@@ -25,7 +25,6 @@ router.post('/login', ((req, res) => {
         }).catch(err => {
                 res.status(401).json(err)
         })
-
 }))
 router.get('/getuser/:id', ((req, res) => {
         Controllers.verifytoken(req, res).then((results) => {
@@ -43,6 +42,20 @@ router.get('/getuser/:id', ((req, res) => {
                 return res.status(401).json(err)
         })
 }))
+router.get("/search/:key",((req,res)=>{
+        Controllers.search(req,res).then((result)=>{
+                res.status(200).json(result)
+        }).catch(err=>{
+                res.status(401).json(err)
+        })
+}))
+router.get('/pages',((req,res)=>{
+        Controllers.Pagination(req,res).then((result)=>{
+                        res.status(200).json(result)
+        }).catch(err=>{
+                res.status(401).json(err)
+        })
+}))
 router.get('/getalluser', ((req, res) => {
         Controllers.getAllUser().then((result) => {
                 return res.status(200).json(
@@ -50,8 +63,9 @@ router.get('/getalluser', ((req, res) => {
                                 success: true,
                                 data: result
                         })
+        }).catch(err=>{
+                return res.status(401).json(err)
         })
-
 }))
 router.put('/updateuser/:id', ((req, res) => {
         Controllers.verifytoken(req, res).then((results) => {
