@@ -1,0 +1,37 @@
+<div class="toolbar" role="banner">
+    <h3 class="bg-success">Update my account</h3>
+</div>
+<div *ngIf="sucessmsg"   class=" text-center alert alert-success alert-dismissible fade show" role="alert">
+  <strong>{{sucessmsg}}</strong>
+  <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+<div *ngIf="errormsg" class="alert alert-danger alert-dismissible fade show" role="alert">
+<strong>{{errormsg}}</strong>
+<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+</div>
+<form [formGroup] = 'Updateform' (ngSubmit)="updateuser()">
+  <h2>Update my account</h2>
+  <label>FirstName</label>
+  <input type="text" name="fname"   formControlName = "fname"  class="form-control" placeholder="Firstname"><br>
+  <p class="error" *ngIf="fname && fname.invalid && fname.touched" >FirstName is Required</p>
+  <label>LastName</label>
+  <input type="text" name="lname"  formControlName = "lname" class="form-control" placeholder="Lastname"><br>
+  <p class="error" *ngIf="lname && lname.invalid && lname.touched" >LastName is Required</p>
+  <label>Email</label>
+  <input type="email" name="email"  formControlName = "email" class="form-control" placeholder="Email"><br>
+  <p class="error" *ngIf="email && email.invalid && email.touched" >Email is Required</p>
+  <p class="error" *ngIf="emailformat && emailformat.invalid && emailformat.touched">Please enter a valid Email</p>
+  <label>Date of Birth</label>
+  <input type="date" name="dob"  formControlName = "dob"  class="form-control" placeholder="Date of Birth"><br>
+  <p class="error" *ngIf="dob && dob.invalid && dob.touched" >Date of Birth is Required</p>
+  <label>Gender</label>
+ <select  formControlName = "gender" name="gender"><br>
+   <option value="Male">Male</option>
+   <option value="Female">Female</option>
+ </select><br>
+  <label>Profession</label>
+  <input type="text" name="prof" formControlName = "prof" class="form-control" placeholder="Proffession"><br>
+  <p class="error" *ngIf="prof && prof.invalid && prof.touched" >Profession is Required</p>
+  <button [disabled] = "Updateform.invalid"  class="submit " type="submit" mat-button color="accent">Update</button><br>
+</form>
+<router-outlet></router-outlet>

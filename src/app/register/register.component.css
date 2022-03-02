@@ -23,6 +23,8 @@ form{
     margin:auto;
     width: 500px;
     border-radius: 5px;
+    scroll-behavior: unset;
+    
   }
   label{
     display: block;
@@ -79,4 +81,7 @@ a{
   }
   .ng-valid{
     border:1px solid green;
+  }
+  .login{
+    color: blue;
   }
