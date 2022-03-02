@@ -33,7 +33,17 @@ const Register = ([
                     Password: hashpassword,
                     dateofbirth: req.body.dob,
                     Gender: req.body.gender,
-                    Proffession: req.body.prof
+                    Proffession: req.body.prof,
+                    messages:[{
+                        userId:req.body.email,
+                        message:req.body.message,
+                    }
+                    ],
+                    posts:[{
+                        userId:req.body.email,
+                        image:req.body.image,
+                        description:req.body.description
+                    }]
                 })
                 user.save(user).then(() => {
                     if (user) {

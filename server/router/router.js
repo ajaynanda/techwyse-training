@@ -9,9 +9,7 @@ router.post('/register', ((req, res) => {
                 })
 
         }).catch(err => {
-                return res.status(401).json({
-                        err
-                })
+                return res.status(401).json(err)
         })
 }))
 router.post('/login', ((req, res) => {
