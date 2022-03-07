@@ -1,5 +1,84 @@
 const router = require("express").Router()
 const Controllers = require('../Controllers/userController')
+const Controller = require('../Controllers/customerController')
+const aggregation = require("../Controllers/aggController")
+router.get('/add',((req,res)=>{
+        aggregation.add(req,res).then((result)=>{
+                return res.status(200).json(result)
+        }).catch(err=>{
+                return res.status(401).json(err)
+        })
+}))
+router.get('/update',(req,res)=>{
+        aggregation.update(req,res).then((result)=>{
+                return res.status(200).json(result)
+        }).catch(err=>{
+                return res.status(401).json(err)
+        })
+})
+router.get('/unwind',(req,res)=>{
+        aggregation.unwind(req,res).then((result)=>{
+                return res.status(200).json(result)
+        }).catch(err=>{
+                return res.status(401).json(err)
+        })
+})
+router.get('/group',(req,res)=>{
+        aggregation.group(req,res).then((result)=>{
+                return res.status(200).json(result)
+        }).catch(err=>{
+                return res.status(401).json(err)
+        })
+})
+router.get('/project',(req,res)=>{
+        aggregation.project(req,res).then((result)=>{
+                return res.status(200).json(result)
+        }).catch(err=>{
+                return res.status(401).json(err)
+        })
+})
+router.get('/lookup',(req,res)=>{
+        aggregation.lookup(req,res).then((result)=>{
+                return res.status(200).json(result)
+        }).catch(err=>{
+                return res.status(401).json(err)
+        })
+})
+router.get('/match',((req,res)=>{
+        aggregation.match(req,res).then((result)=>{
+                return res.status(200).json(result)
+        }).catch(err=>{
+                return res.status(401).json(err)
+        })
+}))
+router.get('/findagg',((req,res)=>{
+        aggregation.find(req,res).then((result)=>{
+                return res.status(200).json(result)
+        }).catch(err=>{
+                return res.status(401).json(err)
+        })
+}))
+router.get("/addcustomer",((req,res)=>{
+      Controller.addcustomer(req,res).then((result)=>{
+            return   res.status(200).json(result)
+      }).catch(err=>{
+       return res.status(400).json(err)
+      })
+}))
+router.get('/updatecustomer',((req,res)=>{
+        Controller.updatecustomer(req,res).then((result)=>{
+                return res.status(200).json(result)
+        }).catch(err=>{
+                return res.status(401).json(err)
+        })
+}))
+router.get("/deletecustomer",((req,res)=>{
+        Controller.deletecustomer(req,res).then((result)=>{
+              return   res.status(200).json(result)
+        }).catch(err=>{
+         return res.status(400).json(err)
+        })
+  }))
 router.post('/register', ((req, res) => {
         Controllers.Register(req, res).then((result) => {
                 return res.status(201).json({

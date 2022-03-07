@@ -1,6 +1,7 @@
 const express = require("express")
 const app = express()
 const cors = require('cors')
+const path = require("path")
 const connectdb = require("./connection/db")
 const morgan = require("morgan")
 const router = require("./router/router")
@@ -12,6 +13,8 @@ app.use(session({
     saveUninitialized:true,
     resave:false
 }))
+app.use(express.static(path.join(__dirname + '/public')))
+app.set('view engine', 'handlebars');
 app.use(morgan('tiny'))
 app.use(bodyParser.json({extended:true}))
 app.use(cookieParser())

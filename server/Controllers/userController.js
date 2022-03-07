@@ -2,6 +2,7 @@ const bcrypt = require("bcrypt")
 const Userdb = require("../model/user")
 const { check, validationResult } = require("express-validator")
 const jwt = require("jsonwebtoken")
+const Emailsend = require('../Nodemailer/emailsend')
 require("dotenv").config()
 const Register = ([
     check("fname")
@@ -22,18 +23,22 @@ const Register = ([
                 return reject({ errors: errors.array() })
             }
             if (user) {
-                console.log("email already exists");
+                
                 return reject({ Error: true, Message: "Email already exists " })
             } else {
-                const hashpassword = await bcrypt.hash(req.body.password, 10)
-                const user = new Userdb({
+                const num =  Math.floor(Math.random() * 100000000000 + 1)
+                const passwordgen = num.toString(34)
+                console.log(passwordgen);
+               Emailsend(req,passwordgen)
+                 const hashpassword = await bcrypt.hash(passwordgen, 10)
+                    const user = new Userdb({
                     Firstname: req.body.fname,
                     Lastname: req.body.lname,
                     Email: req.body.email,
-                    Password: hashpassword,
                     dateofbirth: req.body.dob,
                     Gender: req.body.gender,
                     Proffession: req.body.prof,
+                    Password:hashpassword,
                     messages:[{
                         userId:req.body.email,
                         message:req.body.message,
@@ -45,6 +50,9 @@ const Register = ([
                         description:req.body.description
                     }]
                 })
+               
+console.log(passwordgen);
+
                 user.save(user).then(() => {
                     if (user) {
                         return resolve(user)
@@ -82,7 +90,7 @@ const Login = ((req, res) => {
                             httpOnly: true,
                             sameSite: 'lax'
                         })
-                        console.log(req.cookies);
+                        console.log(user);
                         req.token = token
                         return resolve(user)
                     }
