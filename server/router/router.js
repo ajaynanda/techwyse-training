@@ -2,6 +2,7 @@ const router = require("express").Router()
 const Controllers = require('../Controllers/userController')
 const Controller = require('../Controllers/customerController')
 const aggregation = require("../Controllers/aggController")
+const subdoc = require("../Controllers/subdocController")
 router.get('/add',((req,res)=>{
         aggregation.add(req,res).then((result)=>{
                 return res.status(200).json(result)
@@ -209,5 +210,34 @@ router.get('/logout', ((req, res, next) => {
         })
 
 
+}))
+
+router.get("/deletepost/:id",((req,res)=>{
+        subdoc.deletepost(req,res).then((result)=>{
+                return res.status(200).json(result)
+        }).catch(err=>{
+                return res.status(401).json(err)
+        })
+}))
+router.get("/deletemsg/:id",((req,res)=>{
+        subdoc.deletemsg(req,res).then((result)=>{
+                return res.status(200).json(result)
+        }).catch(err=>{
+                return res.status(401).json(err)
+        })
+}))
+router.get("/updatemsg/:id",((req,res)=>{
+        subdoc.updatemsg(req,res).then((result)=>{
+                return res.status(200).json(result)
+        }).catch(err=>{
+                return res.status(401).json(err)
+        })
+}))
+router.get("/updatepost/:id",((req,res)=>{
+        subdoc.updatepost(req,res).then((result)=>{
+                return res.status(200).json(result)
+        }).catch(err=>{
+                return res.status(401).json(err)
+        })
 }))
 module.exports = router

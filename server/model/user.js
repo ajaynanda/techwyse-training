@@ -5,12 +5,10 @@ const postschema = new mongoose.Schema({
         type:String,
     },
     image:{
-        type:String,
-        
+        type:String,  
     },
     description:{
         type:String,
-        
     }
 })
 const messageSchema = new mongoose.Schema({
