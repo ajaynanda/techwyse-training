@@ -73,8 +73,9 @@ const Login = ((req, res) => {
             }
             if (user) {
                 const password = user.Password
+                console.log(user);
                 bcrypt.compare(req.body.password, password).then((users) => {
-                    console.log(users);
+                   console.log(users);
                     if (!users) {
                         return reject({ Error: true, Message: "Password Incorrect " })
                     }
@@ -129,13 +130,13 @@ const search = ((req, res) => {
         await Userdb.find(
             {
                 '$or': [
-                    { 'Firstname': { $regex: req.params.key, $options: 'i' } }
+                    { 'Firstname': { $regex: req.params.name, $options: 'i' } }
                 ]
             }
         ).then((data) => {
             resolve(data)
         }).catch(err => {
-            reject({ message: "No results Found with keyword " + req.params.key })
+            reject({ message: "No results Found with keyword " + req.params.name })
         })
     })
 })

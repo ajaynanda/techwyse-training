@@ -120,7 +120,7 @@ router.get('/getuser/:id', ((req, res) => {
                 return res.status(401).json(err)
         })
 }))
-router.get("/search/:key",((req,res)=>{
+router.get("/search/:name",((req,res)=>{
         Controllers.search(req,res).then((result)=>{
                 res.status(200).json(result)
         }).catch(err=>{
@@ -160,8 +160,6 @@ router.put('/updateuser/:id', ((req, res) => {
         }).catch(err => {
                 return res.status(401).json(err)
         })
-
-
 }))
 router.delete('/deleteuser/:id', ((req, res) => {
         Controllers.verifytoken(req, res).then((results) => {
@@ -208,10 +206,7 @@ router.get('/logout', ((req, res, next) => {
         }).catch(err => {
                 return res.status(401).json(err)
         })
-
-
 }))
-
 router.get("/deletepost/:id",((req,res)=>{
         subdoc.deletepost(req,res).then((result)=>{
                 return res.status(200).json(result)

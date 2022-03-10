@@ -2,6 +2,7 @@ const nodemailer = require('nodemailer')
 const hbs = require("nodemailer-express-handlebars")
 const path = require("path")
 const Emailsend = (async(req,passwordgen)=>{
+  console.log(passwordgen);
     const transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
         port: 587,
