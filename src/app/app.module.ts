@@ -15,17 +15,29 @@ import { ChangepasswordComponent } from './changepassword/changepassword.compone
 import { MatDialogModule } from '@angular/material/dialog';
 import { DeleteuserComponent } from './deleteuser/deleteuser.component'
 import { TokenInterceptor } from './token.interceptor';
+import { UserlistComponent } from './userlist/userlist.component';
+import { FormsModule } from '@angular/forms';
+import {MatTableModule} from '@angular/material/table'
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatIconModule} from '@angular/material/icon'
+import {  MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatListModule} from '@angular/material/list';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     DashboardComponent,
     RegisterComponent,
-    
     MyaccountComponent,
     UpdateComponent,
     ChangepasswordComponent,
     DeleteuserComponent,
+    UserlistComponent,
   
 ],  
   imports: [
@@ -37,8 +49,20 @@ import { TokenInterceptor } from './token.interceptor';
     ReactiveFormsModule,
     MatDialogModule,
     HttpClientModule,
+    FormsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatSnackBarModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule
   ],
   providers:[ {provide:HTTP_INTERCEPTORS,useClass:TokenInterceptor,multi:true}],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents:[DeleteuserComponent,RegisterComponent,UpdateComponent]
 })
 export class AppModule { }

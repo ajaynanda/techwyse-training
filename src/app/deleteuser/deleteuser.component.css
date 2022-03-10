@@ -1,9 +1,9 @@
 .box{
     background-color: azure;
     padding: 10px;
-    margin:10% 40%;
+    margin:10% auto;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    width: 30%;
+    width: 50%;
     text-align: center;
     }
     .btn{

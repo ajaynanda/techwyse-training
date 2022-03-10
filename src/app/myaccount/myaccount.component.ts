@@ -12,8 +12,14 @@ authenticated:any
   constructor(private http:ApiserviceService) { }
 
   ngOnInit(): void {
-    const id =  JSON.parse(localStorage.getItem('userdata') || '{}');
+    const name =  JSON.parse(localStorage.getItem('userdata') || '{}');
+    const id = name._id
+    this.http.getuserbyid(id).subscribe((res:any)=>{
+    this.user = res.data
     this.authenticated = true
-    this.user = id   
+    })
+   
+   
+   
   }
 }

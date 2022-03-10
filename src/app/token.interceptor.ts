@@ -14,7 +14,6 @@ export class TokenInterceptor implements HttpInterceptor {
   constructor(private authservice: ApiserviceService) { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler) {
-    console.log({ request });
     const commonUrl = 'http://localhost:4000/'
     const token = localStorage.getItem('token')
     let newRequest = request.clone({

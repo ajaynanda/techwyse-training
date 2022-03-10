@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Emitters } from 'src/Emmitters/emmitter';
 import { ApiserviceService } from './apiservice.service';
+import { NotificationService } from './notification.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -9,12 +11,17 @@ import { ApiserviceService } from './apiservice.service';
 })
 export class AppComponent implements OnInit {
   name:any
-  authenticated= false
-  constructor(private http:ApiserviceService,private route:Router,private router:ActivatedRoute){}
-  ngOnInit(): void {
-  this.name =   JSON.parse(localStorage.getItem('userdata') || '{}')
-  console.log(this.name.Firstname);
+  names:any
   
+  authenticated= false
+  constructor(private http:ApiserviceService,private route:Router,private router:ActivatedRoute,private notification:NotificationService){}
+  ngOnInit(): void {
+    this.names =   JSON.parse(localStorage.getItem('userdata') || '{}')
+    const id = this.names._id
+    this.http.getuserbyid(id).subscribe((res:any)=>{
+      this.name= res.data
+    })
+ 
     Emitters.authemitter.subscribe((auth:boolean)=>{
       this.authenticated = auth
       })
@@ -24,6 +31,7 @@ export class AppComponent implements OnInit {
      this.authenticated=false
      localStorage.removeItem('token')
      localStorage.removeItem('userdata')
+     this.notification.error('You are logged out successfully')
      this.route.navigate(['/Login'])
      })
  }

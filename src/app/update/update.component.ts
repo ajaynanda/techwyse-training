@@ -1,17 +1,26 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
 import { ActivatedRoute } from '@angular/router';
 import { ApiserviceService } from '../apiservice.service';
+import { NotificationService } from '../notification.service';
+import { MAT_DIALOG_DATA,MatDialogRef } from '@angular/material/dialog';
 @Component({
   selector: 'app-update',
   templateUrl: './update.component.html',
   styleUrls: ['./update.component.css']
 })
 export class UpdateComponent implements OnInit {
+  datas:any
   sucessmsg: any
   errormsg: any
+  authenticated=false
+  button:string = 'save'
+  constructor(private http: ApiserviceService, 
+    private router: ActivatedRoute,
+    private notification:NotificationService,
+    private dialog:MatDialogRef<UpdateComponent>,
+    @Inject(MAT_DIALOG_DATA) private editdata:any,
+   ) { }
   Updateform = new FormGroup({
     fname: new FormControl('', [Validators.required]),
     lname: new FormControl('', [Validators.required]),
@@ -20,10 +29,9 @@ export class UpdateComponent implements OnInit {
     gender: new FormControl('', Validators.required),
     prof: new FormControl('', [Validators.required]),
   })
-  constructor(private http: ApiserviceService, private router: ActivatedRoute) { }
-
   ngOnInit(): void {
     this.http.getuserbyid(this.router.snapshot.params['id']).subscribe((res: any) => {
+      this.datas = res.data
       this.Updateform = new FormGroup({
         fname: new FormControl(res.data.Firstname),
         lname: new FormControl(res.data.Lastname),
@@ -33,13 +41,28 @@ export class UpdateComponent implements OnInit {
         prof: new FormControl(res.data.Proffession),
       })
     })
+   if(this.editdata){
+     this.button = 'Update'
+     this.Updateform.controls['fname'].setValue(this.editdata.Firstname)
+     this.Updateform.controls['lname'].setValue(this.editdata.Lastname)
+     this.Updateform.controls['email'].setValue(this.editdata.Email)
+     this.Updateform.controls['dob'].setValue(this.editdata.dateofbirth)
+     this.Updateform.controls['gender'].setValue(this.editdata.Gender)
+     this.Updateform.controls['prof'].setValue(this.editdata.Proffession)
+   }
+    
   }
+ 
   updateuser() {
-    this.http.updateuser(this.router.snapshot.params['id'], this.Updateform.value).subscribe((res: any) => {
+    this.http.updateuser(this.editdata._id, this.Updateform.value).subscribe((res: any) => {
       console.log(res);
       this.sucessmsg = res.message
+      this.authenticated = true
+      this.notification.success('Updated Successfully')
+      this.dialog.close(UpdateComponent)
     }, (err => {
-      this.errormsg = err.message
+      this.errormsg = err.error.message
+      this.notification.error(this.errormsg)
     }))
   }
   get emailformat() { return this.Updateform.get('email') }
@@ -49,4 +72,5 @@ export class UpdateComponent implements OnInit {
   get prof() { return this.Updateform.get('prof') }
   get dob() { return this.Updateform.get('dob') }
   get gender() { return this.Updateform.get('gender') }
+ 
 }

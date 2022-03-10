@@ -6,16 +6,12 @@
     <button class="navbutton btn btn-primary" ><a routerLink="/Register" routerLinkActive="active">Register</a></button>
     <button class="navbutton btn btn-primary" ><a routerLink="/Login" routerLinkActive="active">Login</a></button>
   </div>
-
-
-<div id="reglognav" *ngIf='authenticated'>
+<div id="reglognav" *ngIf='authenticated' >
   <div class="dropdown">
     <button id="btn"  class="navbutton btn btn-primary" >Profile<span id="span" ><i class="bi-caret-down-fill"></i></span></button>
     <div class="dropdown-content">
       <a routerLink="/myprofile">My account</a>
-      <a routerLink="/updateme/{{name._id}}">Update Account</a>
       <a routerLink="/changepasswordme/{{name._id}}">Change Password</a>
-      <a  routerLink="/deleteme/{{name._id}}">Delete Account</a>
     </div>
   </div>
   <i class="bi bi-person-fill"></i>

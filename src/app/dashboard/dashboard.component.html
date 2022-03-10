@@ -1,4 +1,48 @@
-<div>
-    {{name.Firstname}}
-</div>
-<h1>Welcome {{name.Firstname}}</h1>
+
+    
+    <!-- <div class="col-md-2">
+        <div class="sidebar" >
+            <ul>
+                <li>
+                   <a routerLink = "/userlist"> List of users </a>
+                </li>
+            </ul>
+          </div>
+          
+        </div> -->
+        <mat-sidenav-container autosize>
+            <mat-sidenav #sidenav mode="side" opened="true">
+              <mat-nav-list>
+          
+                <mat-list-item>
+                  <mat-icon mat-list-icon class="chevron-button sidenav-button" (click)="isExpanded = !isExpanded" [ngClass]="{'rotated': isExpanded}">chevron_right</mat-icon>
+                </mat-list-item>
+                <mat-list-item [routerLink]="'dashboard'">
+                  <mat-icon mat-list-icon > <a routerLink = "/userlist">supervisor_account</a></mat-icon>
+                  <span *ngIf="isExpanded"> <a routerLink = "/userlist">UserList</a></span>
+                </mat-list-item>
+                <mat-list-item [routerLink]="'dashboard'">
+                    <mat-icon mat-list-icon >  <a routerLink="/myprofile">person</a> </mat-icon>
+                    <span *ngIf="isExpanded">  <a routerLink="/myprofile">My account</a></span>
+                  </mat-list-item>
+                <mat-list-item [routerLink]="'dashboard'">
+                    <mat-icon mat-list-icon ><a (click)="updatebyid(data,data._id)">update</a></mat-icon>
+                    <span *ngIf="isExpanded"><a routerLink="/updateme/{{data._id}}">Update Account</a></span>
+                  </mat-list-item>
+                  <mat-list-item [routerLink]="'dashboard'">
+                    <mat-icon mat-list-icon >  <a  routerLink="/changepasswordme/{{data._id}}">password</a></mat-icon>
+                    <span *ngIf="isExpanded">     <a  routerLink="/changepasswordme/{{data._id}}">Change Password</a></span>
+                  </mat-list-item>
+                  <mat-list-item [routerLink]="'dashboard'">
+                    <mat-icon mat-list-icon >  <a (click)="deletebyid(data._id)">delete</a></mat-icon>
+                    <span *ngIf="isExpanded"> <a  routerLink="/deleteme/{{data._id}}">Delete Account</a></span>
+                  </mat-list-item>
+              </mat-nav-list>
+            </mat-sidenav>
+            <div class="content">
+              <mat-toolbar>
+                <h4 style="margin: auto;">Welcome {{data.Firstname}}</h4>
+              </mat-toolbar>
+              <router-outlet></router-outlet>
+            </div>
+          </mat-sidenav-container>

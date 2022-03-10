@@ -9,5 +9,6 @@ export const environment = {
   myaccount:'getuser',
   updateuser:'updateuser',
   changepassword:'changepassword',
-  deleteuser:"deleteuser"
+  deleteuser:"deleteuser",
+  searchuser:'search'
 };

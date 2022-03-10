@@ -2,13 +2,14 @@ import { Component} from '@angular/core';
 import { FormControl, FormGroup,Validators } from '@angular/forms';
 import { ApiserviceService } from '../apiservice.service';
 import { Router } from '@angular/router';
+import { NotificationService } from '../notification.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-constructor(private  http:ApiserviceService,private route:Router){}
+constructor(private  http:ApiserviceService,private route:Router,private notification:NotificationService){}
 errormsg:any
 successmsg:any
 Loginform = new FormGroup({
@@ -19,17 +20,16 @@ Loginform = new FormGroup({
     this.http.loginuser(this.Loginform.value).subscribe((res)=>{
     if(res){
       this.Loginform.reset()
-      console.log(res);
       localStorage.setItem('userdata',JSON.stringify(res.user))
       localStorage.setItem('token',res.token)
       this.successmsg= res.Message
-      console.log(this.successmsg);
-      
+      this.notification.success('You are Logged in successfully')
       this.route.navigate(['/dashboard'])
     }
   },(err=>{
     console.log(err);
     this.errormsg = err.error.Message
+    this.notification.error(this.errormsg)
   }))
 }
 register(){

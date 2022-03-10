@@ -16,7 +16,7 @@
     <input type="password" name="password" formControlName="password"  placeholder="Password"><br>
     <p class="error" *ngIf="password && password.invalid && password.touched">Please enter Password</p>
     <p class="error" *ngIf="passwordlength && passwordlength.invalid && passwordlength.touched">Password is not havng valid characters</p>
-    <button [disabled] = "Loginform .invalid" class="submit " type="submit" mat-button color="accent">Login</button>
+    <button [disabled] = "Loginform.invalid" class="submit " type="submit" mat-button color="accent">Login</button>
     <button (click)="register()" class="submit " type="submit" mat-button color="warn">Register</button><br>
   </form>
   

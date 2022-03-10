@@ -1,4 +1,50 @@
-h1{
-    display: block;
-    margin: 100px 40% ;
+.col-md-10{
+    margin-left:auto;
 }
+h1{
+  
+    margin:200px 40% ;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.sidebar{
+  
+    background-color: blue;
+    padding: 20px;  
+    height:100%;
+    margin-top: 0px;
+}
+li{
+     
+        list-style: none;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        font-weight: 600;
+        font-size: larger;      
+}
+.row{
+    display:flex;
+    text-align: center;
+}
+.col-md-2{
+    margin-top: 100px;
+margin-left: 20px;
+height: 100%;
+}
+a{
+    text-decoration: none;
+    color: white;
+}
+.chevron-button {
+      transition: 300ms ease-in-out;
+      transform: rotate(0deg);
+      right: 0;
+    float: right;
+      position: absolute;
+    }
+.mat-sidenav-container {
+        margin-top: 80px;
+        height: 100%;
+    }
+.chevron-button.rotated {
+      
+        transform: rotate(180deg);
+      }

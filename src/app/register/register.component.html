@@ -10,6 +10,7 @@
     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 </div>
 <form [formGroup] = 'Regform' (ngSubmit)="postuser()">
+ 
   <h2>User registration</h2>
   <span >Register your account</span><br>
   <label>FirstName</label>
@@ -33,10 +34,10 @@
   <label>Profession</label>
   <input type="text" name="prof" formControlName="prof" class="form-control" placeholder="Proffession"><br>
   <p class="error" *ngIf="prof && prof.invalid && prof.touched" >Profession is Required</p>
-  <label>Password</label>
+  <!-- <label>Password</label>
   <input type="password" class="form-control" formControlName="password" name="password" placeholder="Password"><br>
   <p class="error" *ngIf="password && password.invalid && password.touched" >Password is Required</p>
-  <p class="error" *ngIf="passwordlength && passwordlength.invalid && passwordlength.touched" >Password must be atleast 6 characters long</p>
+  <p class="error" *ngIf="passwordlength && passwordlength.invalid && passwordlength.touched" >Password must be atleast 6 characters long</p> -->
   <label>Message</label>
   <input type="text" class="form-control" formControlName="message" name="message" placeholder="Messages"><br>
   <p class="error" *ngIf="msg && msg.invalid && msg.touched" >Type a description nor a message</p>

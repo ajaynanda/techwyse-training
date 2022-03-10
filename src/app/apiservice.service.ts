@@ -46,6 +46,9 @@ export class ApiserviceService {
   deleteuser(id:any){
     return this.http.delete(`${environment.deleteuser}/${id}`)
   }
+  searchuser(name:any){
+    return this.http.get(`${environment.searchuser}/${name}`)
+  }
  
 }
 

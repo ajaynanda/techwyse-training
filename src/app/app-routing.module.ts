@@ -9,6 +9,7 @@ import { LoginComponent } from './login/login.component';
 import { MyaccountComponent } from './myaccount/myaccount.component';
 import { RegisterComponent } from './register/register.component';
 import { UpdateComponent } from './update/update.component';
+import { UserlistComponent } from './userlist/userlist.component';
 const routes: Routes = [
   { path: 'Login', component: LoginComponent},
   { path: 'Register', component: RegisterComponent },
@@ -17,7 +18,8 @@ const routes: Routes = [
   {path:'myprofile',component:MyaccountComponent},
   {path:'updateme/:id',component:UpdateComponent},
   {path:'changepasswordme/:id',component:ChangepasswordComponent},
-  {path:'deleteme/:id',component:DeleteuserComponent}
+  {path:'deleteme/:id',component:DeleteuserComponent},
+  {path:'userlist',component:UserlistComponent}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

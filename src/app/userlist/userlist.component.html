@@ -1,0 +1,92 @@
+<!-- <div class="search">
+  
+    <input type="text" class="from-control"   name="search" [(ngModel)] = "searchText" placeholder="Search" >
+    <button type="submit" class="btn btn-success">Search</button><br>
+    
+    </div>
+
+   
+    <table >
+      
+        <thead >
+         
+            <th >Name</th>
+            <th>Email</th>
+            <th>Gender</th>
+            <th>DOB</th>
+            <th>Proffession</th>
+            <th>Actions</th>
+           
+        </thead>
+        <tbody >
+            <tr  *ngFor = "let datas of data | filter:searchText">
+        
+            <td scope="col">{{datas.Firstname}} {{datas.Lastname}}</td>
+            <td scope="col" style="text-transform: lowercase;">{{datas.Email}}</td>
+            <td scope="col">{{datas.Gender}}</td>
+            <td>{{datas.dateofbirth}}</td>
+            <td scope="col">{{datas.Proffession}}</td>
+            <td scope="col">
+                <button class="btn btn-sm btn-primary" >
+<a routerLink="/updateme/{{datas._id}}" >Edit</a>
+                </button>
+                <button class="btn btn-sm btn-danger" >
+                    <a routerLink="/deleteme/{{datas._id}}" >Delete</a>
+                                    </button>
+            </td>
+        </tr>
+        </tbody>
+   
+    </table> -->
+<div class="table">
+  <h3>List of users</h3>
+  <button (click)="adduser()" class="btn btn btn-success btn-lg">Add User</button>
+  <div class="example-header">
+    <mat-form-field appearence="fill">
+      <input matInput placeholder="Search Here" autocomplete="off" (keyup)="filter($event)">
+    </mat-form-field>
+  </div>
+  <div class="example-container mat-elevation-z8">
+    <mat-table #table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="Firstname">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Firstname}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Email">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Email}} </mat-cell>
+      </ng-container>
+
+
+      <ng-container matColumnDef="Gender">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Gender </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Gender}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="dateofbirth">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> DOB </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.dateofbirth}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="Proffession">
+        <th>
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Proffession </mat-header-cell>
+        </th>
+        <mat-cell *matCellDef="let element">{{element.Proffession}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th>
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+        </th>
+        <td>
+          <mat-cell *matCellDef="let element">
+            <button class="btn btn-primary  btn-sm" (click)="edituser(element,element._id)"> <a>Edit</a></button>
+            <button class="btn btn-danger  btn-sm" (click)="openDialog(element,element._id)"> <a>Delete</a></button>
+          </mat-cell>
+        </td>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator #paginator [pageSize]="5" [pageSizeOptions]="[2,5, 10, 20]" [showFirstLastButtons]="true">
+    </mat-paginator>
+  </div>
+</div>
