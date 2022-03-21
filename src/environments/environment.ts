@@ -10,5 +10,8 @@ export const environment = {
   updateuser:'updateuser',
   changepassword:'changepassword',
   deleteuser:"deleteuser",
-  searchuser:'search'
+  searchuser:'search',
+  updatecourse:'updatecourse',
+  addcourse:"addcourse",
+  deletecourse:"deletecourse"
 };

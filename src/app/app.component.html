@@ -11,12 +11,15 @@
     <button id="btn"  class="navbutton btn btn-primary" >Profile<span id="span" ><i class="bi-caret-down-fill"></i></span></button>
     <div class="dropdown-content">
       <a routerLink="/myprofile">My account</a>
-      <a routerLink="/changepasswordme/{{name._id}}">Change Password</a>
     </div>
   </div>
+  <span>{{today | date:'fullDate'}}</span>
+  <span>{{status}}</span>
   <i class="bi bi-person-fill"></i>
+  
   <a routerLink="/dashboard" style="text-transform: uppercase;"> {{name.Firstname}} </a>
   <button (click) = "Logout()" class="navbutton btn btn-primary" ><a>Logout</a></button>
+ 
   </div>
 </div>
 <router-outlet></router-outlet>

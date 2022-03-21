@@ -1,7 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { FormControl,FormGroup,Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import {  MatDialogRef } from '@angular/material/dialog';
 import { ApiserviceService } from '../apiservice.service';
 
 import { NotificationService } from '../notification.service';
@@ -11,9 +11,10 @@ import { NotificationService } from '../notification.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent{
-  constructor(private http:ApiserviceService,private notification:NotificationService,private dialog:MatDialog){}
+  constructor(private http:ApiserviceService,private notification:NotificationService){}
   errormsg:any
   successmsg:any
+  authenticated=true
   ngOnInit():void{
     this.http.getalldata().subscribe((res)=>{
 
@@ -34,6 +35,8 @@ Regform = new FormGroup({
     if(res){
      this.successmsg = res.message
      this.notification.success('User Saved successfully')
+     this.authenticated=true
+    // this.dialog.close(RegisterComponent)
     }
    },(err)=>{
     this.errormsg = err.error.Message
@@ -50,7 +53,7 @@ get prof(){return this.Regform.get('prof')}
 // get passwordlength(){return this.Regform.get('password')}
 // get password(){return this.Regform.get('password')}
 // onClose(){
-//  this.dialog.close(this.Regform.value)
+//  this.dialog.close()
 // }
 }
 

@@ -1,13 +1,29 @@
 import { Component, Inject,OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
+import {  MatDialogRef,MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Emitters } from 'src/Emmitters/emmitter';
 import { ApiserviceService } from '../apiservice.service';
 import { NotificationService } from '../notification.service';
 @Component({
   selector: 'app-deleteuser',
-  templateUrl: './deleteuser.component.html',
-  styleUrls: ['./deleteuser.component.css']
+  template: `<div class="box">
+  <h4>Account will be deleted Permanently</h4>
+  <button (click)="close()" class="btn btn-warning">Cancel</button>
+  <button class="btn btn-danger" (click)="delete()">Delete</button>
+</div>`,
+  styles: [
+ `  .box{
+      background-color: azure;
+      padding: 10px;
+      margin:10% auto;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      width: 50%;
+      text-align: center;
+      }
+      .btn{
+          padding: 5px;
+          margin: 5px;
+      }`
+  ]
 })
 export class DeleteuserComponent implements OnInit {
   authenticated=false
@@ -18,7 +34,6 @@ export class DeleteuserComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) private editdata:any) { }
 
   ngOnInit(): void {
-    console.log(this.editdata.Firstname);
   }
   delete(){
     this.http.deleteuser(this.editdata._id).subscribe((res:any)=>{

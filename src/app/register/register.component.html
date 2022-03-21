@@ -43,6 +43,6 @@
   <p class="error" *ngIf="msg && msg.invalid && msg.touched" >Type a description nor a message</p>
   <span>Already have an account?<a class="login" routerLink='/Login'>Login</a></span>
   <button  [disabled] = "Regform.invalid" class="submit " type="submit" mat-button color="accent">Register</button><br>
-  <span style="color: blue;margin-top: 0px;" *ngIf="Regform.invalid" >Please Fill the from to enable the Button</span>
+  <span style="color: blue;margin-top: 0px;" *ngIf="Regform.invalid" >Please Fill the from to enable the Button</span>  
 </form>
 <router-outlet></router-outlet>

@@ -12,6 +12,7 @@ export class LoginComponent {
 constructor(private  http:ApiserviceService,private route:Router,private notification:NotificationService){}
 errormsg:any
 successmsg:any
+authenticated = true
 Loginform = new FormGroup({
   email:new FormControl('',[Validators.required,Validators.email]),
   password:new FormControl('',[Validators.required, Validators.minLength(6)])
@@ -24,6 +25,7 @@ Loginform = new FormGroup({
       localStorage.setItem('token',res.token)
       this.successmsg= res.Message
       this.notification.success('You are Logged in successfully')
+      this.authenticated = true
       this.route.navigate(['/dashboard'])
     }
   },(err=>{

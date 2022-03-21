@@ -17,6 +17,7 @@ export class UserlistComponent implements OnInit {
   datas: any
   displayedColumns = ["Firstname", "Email", "Gender", "dateofbirth", "Proffession", "actions"]
   elements: any
+  authenticated=false
   dataSource!: MatTableDataSource<any>
   @ViewChild('paginator') paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -27,6 +28,7 @@ export class UserlistComponent implements OnInit {
       this.dataSource = new MatTableDataSource(res.data)
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator
+      this.authenticated=true
     })
   }
   filter($event: any) {
@@ -37,18 +39,19 @@ export class UserlistComponent implements OnInit {
       width: '50%',
       data: row
     })
+   
     this.router.navigate([`/userlist`])
   }
   adduser() {
     
     this.dialog.open(RegisterComponent,{
-      width:'30%'
+      width:'40%'
     })
   }
   edituser(row: any, id: any) {
     this.dialog.open(UpdateComponent, {
-      width: '30%',
-      data: row
+      width: '45%',
+      data:row
     })
     this.router.navigate([`/userlist`])
     this.http.getuserbyid(id).subscribe((res: any) => {

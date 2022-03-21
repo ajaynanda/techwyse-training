@@ -63,6 +63,6 @@ import {MatListModule} from '@angular/material/list';
   ],
   providers:[ {provide:HTTP_INTERCEPTORS,useClass:TokenInterceptor,multi:true}],
   bootstrap: [AppComponent],
-  entryComponents:[DeleteuserComponent,RegisterComponent,UpdateComponent]
+  entryComponents:[]
 })
 export class AppModule { }

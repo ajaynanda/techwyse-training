@@ -1,8 +1,70 @@
 div{
-        text-align: center;
-    margin-top: 100px;
+    text-align: center;
+    margin-top: 5px;
 }
 h3{
-    font-size: 30px;
-    font-weight: 800;
+font-size: 30px;
+font-weight: 800;
+}
+.butons{
+padding:5px;
+margin:15px;
+
+}
+.buton{
+    float: left;
+    margin-top: 15px;
+
+}
+.bi-plus-square{
+margin-left:10px;
+}
+.table{
+
+width:500px;
+text-align:center;
+margin: 20px auto;
+border:1px solid black;
+}
+.tablerow{
+    margin: auto;
+}
+td input{
+    margin-top: 15px;
+}
+.from2{
+display:block;
+width:20%;
+padding:10px;
+margin:auto;
+}
+.from2 input{
+border-radius:20px;
+height:40px;
+padding:10px;
+margin-top:10px;
+}
+.course{
+    display: block;
+    margin: auto;
+    background-color:aliceblue;
+    width: 1300px;
+    padding: 10px;
+    border-radius: 5px;
+    
+}
+.form{
+    margin-top: 10px;
+    padding: 10px;
+}
+.form input{
+    height: 45px;
+    border-radius: 5px;
+    padding: 10px;
+    width: 350px;
+}
+.form label{
+    font-size: large;
+    padding: 5px;
+    margin: 5px;
 }

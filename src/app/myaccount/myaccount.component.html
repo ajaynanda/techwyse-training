@@ -1,7 +1,80 @@
 <div>
     <img src="">
-    <h3 ><span style="text-transform: uppercase;">{{user.Firstname}}</span> Profile</h3>
+    <h3><span style="text-transform: uppercase;">{{user.Firstname}}</span> Profile</h3>
 </div>
 <h5>Personal details</h5>
-<p>Name:{{this.user.Firstname}} {{user.Lastname}}</p>
+<p>Name:{{user.Firstname}} {{user.Lastname}}</p>
 <p>Proffession:{{user.Proffession}}</p>
+
+<div class="course">
+    <h3>Add your Qualification</h3>
+    <div class="form">
+        <form class="form">
+
+            <div class="form-row">
+                <table class="tablerow">
+                    <thead>
+                        <th> <label>Course name</label></th>
+                        <th> <label>Institute</label></th>
+                        <th> <label>Percentage</label></th>
+                    </thead>
+                    <tbody *ngFor="let data of dataarray ;let i =index">
+                        <td><input type="text" placeholder="course name" name="name{{i}}" [(ngModel)]="data.name"></td>
+                        <td> <input type="text" placeholder="institute" name="institute{{i}}"
+                                [(ngModel)]="data.institute"></td>
+                        <td> <input type="text" placeholder="Percentage" name="percentage{{i}}"
+                                [(ngModel)]="data.percentage"></td>
+                        <button *ngIf="i!=0" (click)="remove(i)" class="btn btn-danger btn-sm buton"><i
+                                class="bi bi-trash-fill"></i></button>
+                    </tbody>
+                    <button (click)="add()" class="btn btn-success btn-sm buton"> <i class="bi bi-plus-square"></i> Add
+                        fields</button>
+                </table>
+
+                <br><br>
+            </div>
+        </form>
+    </div>
+    <button (click)="addcourse(user._id,dataarray)" class="btn btn-primary btn-sm butons" type="submit">Save
+        Changes</button>
+   
+</div>
+
+<div class="table">
+    <table class="table">
+        <thead>
+            <th>sl.no</th>
+            <th>Course name</th>
+            <th>Institute</th>
+            <th>Percentage</th>
+            <th>Actions</th>
+        </thead>
+        <tbody *ngFor="let users of result; let i =index">
+            <td>{{i+1}}</td>
+            <input type="hidden" name="editid" [(ngModel)]="users._id">
+            <td>{{users.coursename}}</td>
+            <td>{{users.Institute}}</td>
+            <td>{{users.percentage}}</td>
+            <td>
+                <a style="color: green;cursor: pointer;" (click)="edit(users._id,users)">Update</a>
+                <a style="color: red;cursor: pointer;" (click)="close(user._id,users._id)">Delete</a>
+            </td>
+        </tbody>
+    </table>
+</div>
+<div class="from2">
+    <form #form="ngForm" (ngSubmit)="updatecourse(user._id,form.value)" *ngIf="editdata">
+        <input type="hidden" placeholder="editid" [(ngModel)]=editdata._id name="editid" class="form-control"><br>
+        <label>Course name</label>
+        <input type="text" ngModel placeholder="course name" [(ngModel)]=editdata.coursename name="name"
+            class="form-control"><br>
+        <label>Institute</label>
+        <input type="text" ngModel placeholder="institute" [(ngModel)]=editdata.Institute name="institute"
+            class="form-control"><br>
+        <label>Percentage</label>
+        <input type="text" ngModel placeholder="Percentage" [(ngModel)]=editdata.percentage name="percentage"
+            class="form-control"><br>
+        <button class="btn btn-success">Update</button>
+    </form>
+
+</div>

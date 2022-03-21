@@ -49,6 +49,14 @@ export class ApiserviceService {
   searchuser(name:any){
     return this.http.get(`${environment.searchuser}/${name}`)
   }
- 
+ updatecourses(id:any,data:any){
+  return this.http.put(`${environment.updatecourse}/${id}`,data)
+ }
+ addcourse(id:any,data:any){
+   return this.http.post(`${environment.addcourse}/${id}`,data)
+ }
+ deletecourse(id:any,ids:any){
+  return this.http.get(`${environment.deletecourse}/${id}/${ids}`)
+ }
 }
 

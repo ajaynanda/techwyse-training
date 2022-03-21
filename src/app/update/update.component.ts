@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiserviceService } from '../apiservice.service';
 import { NotificationService } from '../notification.service';
 import { MAT_DIALOG_DATA,MatDialogRef } from '@angular/material/dialog';
@@ -17,6 +17,7 @@ export class UpdateComponent implements OnInit {
   button:string = 'save'
   constructor(private http: ApiserviceService, 
     private router: ActivatedRoute,
+    private route:Router,
     private notification:NotificationService,
     private dialog:MatDialogRef<UpdateComponent>,
     @Inject(MAT_DIALOG_DATA) private editdata:any,
@@ -30,6 +31,7 @@ export class UpdateComponent implements OnInit {
     prof: new FormControl('', [Validators.required]),
   })
   ngOnInit(): void {
+     this.authenticated = true
     this.http.getuserbyid(this.router.snapshot.params['id']).subscribe((res: any) => {
       this.datas = res.data
       this.Updateform = new FormGroup({
@@ -58,6 +60,7 @@ export class UpdateComponent implements OnInit {
       console.log(res);
       this.sucessmsg = res.message
       this.authenticated = true
+     // this.route.navigate(['userlist'])
       this.notification.success('Updated Successfully')
       this.dialog.close(UpdateComponent)
     }, (err => {
@@ -72,5 +75,7 @@ export class UpdateComponent implements OnInit {
   get prof() { return this.Updateform.get('prof') }
   get dob() { return this.Updateform.get('dob') }
   get gender() { return this.Updateform.get('gender') }
- 
+ close(){
+   this.dialog.close()
+ }
 }

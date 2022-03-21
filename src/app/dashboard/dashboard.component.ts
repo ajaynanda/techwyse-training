@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Emitters } from 'src/Emmitters/emmitter';
 import { ApiserviceService } from '../apiservice.service';
+import { ChangepasswordComponent } from '../changepassword/changepassword.component';
 import { DeleteuserComponent } from '../deleteuser/deleteuser.component';
 import { UpdateComponent } from '../update/update.component';
 
@@ -15,13 +16,13 @@ export class DashboardComponent implements OnInit {
 message:any
 authenticated =false;
 data:any
+
 isExpanded: boolean = false;
   constructor(private http:ApiserviceService,private dialog:MatDialog) { }
   ngOnInit(): void {
     this.name = JSON.parse(localStorage.getItem('userdata') || '{}');
     const id = this.name._id
     this.http.getuserbyid(id).subscribe((res:any)=>{
-      console.log(res.data);
       this.data = res.data
       
     })
@@ -36,9 +37,18 @@ isExpanded: boolean = false;
       Emitters.authemitter.emit(false)
     }
   }
+  changepassword(row:any){
+   console.log(row);
+   
+    
+    this.dialog.open(ChangepasswordComponent,{
+      width:'60%',
+    data:row})
+  }
   updatebyid(row:any,id:any){
     console.log(id);
     this.dialog.open(UpdateComponent,{
+      width:'40%',
       data:row
     })
  

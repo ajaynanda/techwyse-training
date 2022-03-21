@@ -32,6 +32,8 @@
   <label>Profession</label>
   <input type="text" name="prof" formControlName = "prof" class="form-control" placeholder="Proffession"><br>
   <p class="error" *ngIf="prof && prof.invalid && prof.touched" >Profession is Required</p>
+ 
   <button [disabled] = "Updateform.invalid"  class="submit " type="submit" mat-button color="accent">{{button}}</button><br>
 </form>
-<router-outlet></router-outlet>
+<button  class="submit " (click)="close()" mat-button color="warn">Cancel</button><br>
+
