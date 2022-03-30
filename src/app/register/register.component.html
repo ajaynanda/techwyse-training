@@ -1,14 +1,14 @@
 <div class="toolbar" role="banner">
     <h3 class="bg-success">User Registration</h3>
     </div>
-    <div *ngIf="successmsg"   class=" text-center alert alert-success alert-dismissible fade show" role="alert">
+    <!-- <div *ngIf="successmsg"   class=" text-center alert alert-success alert-dismissible fade show" role="alert">
       <strong>{{successmsg}}</strong>
       <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
   <div *ngIf="errormsg" class="alert alert-danger alert-dismissible fade show" role="alert">
     <strong>{{errormsg}}</strong>
     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-</div>
+</div> -->
 <form [formGroup] = 'Regform' (ngSubmit)="postuser()">
  
   <h2>User registration</h2>

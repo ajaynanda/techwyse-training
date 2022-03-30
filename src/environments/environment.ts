@@ -13,5 +13,6 @@ export const environment = {
   searchuser:'search',
   updatecourse:'updatecourse',
   addcourse:"addcourse",
-  deletecourse:"deletecourse"
+  deletecourse:"deletecourse",
+  profile:'public'
 };

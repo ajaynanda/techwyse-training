@@ -1,15 +1,4 @@
 
-    
-    <!-- <div class="col-md-2">
-        <div class="sidebar" >
-            <ul>
-                <li>
-                   <a routerLink = "/userlist"> List of users </a>
-                </li>
-            </ul>
-          </div>
-          
-        </div> -->
         <mat-sidenav-container autosize>
             <mat-sidenav #sidenav mode="side" opened="true">
               <mat-nav-list>
@@ -19,7 +8,7 @@
                 </mat-list-item>
                 <mat-list-item [routerLink]="'dashboard'">
                   <mat-icon mat-list-icon title="all users" > <a routerLink = "/userlist">supervisor_account</a></mat-icon>
-                  <span *ngIf="isExpanded"> <a routerLink = "/userlist">UserList</a></span>
+                  <span *ngIf="isExpanded"> <a routerLink = "/userlist" >UserList</a></span>
                 </mat-list-item>
                 <mat-list-item [routerLink]="'dashboard'">
                     <mat-icon mat-list-icon title="myprofile">  <a routerLink="/myprofile">person</a> </mat-icon>

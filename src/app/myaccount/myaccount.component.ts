@@ -1,8 +1,11 @@
 
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ApiserviceService } from '../apiservice.service';
 import { NotificationService } from '../notification.service';
 import {array} from "./array.model"
+import { ImageComponent } from './image.component';
+
 @Component({
   selector: 'app-myaccount',
   templateUrl: './myaccount.component.html',
@@ -15,7 +18,7 @@ array=new array()
 result:any
 editdata:any
 dataarray:any=[]
-  constructor(private http:ApiserviceService,private notification:NotificationService) { }
+  constructor(private http:ApiserviceService,private notification:NotificationService,private dialog:MatDialog) { }
 
   ngOnInit(): void {
     const name =  JSON.parse(localStorage.getItem('userdata') || '{}');
@@ -26,7 +29,6 @@ dataarray:any=[]
     this.authenticated = true
     this.array=new array()
     this.dataarray.push(this.array)
-
     })
   }
   updatecourse(id:any,data:any){
@@ -36,7 +38,6 @@ dataarray:any=[]
        console.log(res);
        if(res) return  this.notification.success('Qualification Updated Successfully')
      })  
-    
   }
   addcourse(id:any,data:any){
     data.forEach((item:any) =>{
@@ -66,5 +67,17 @@ close(id:any,editid:any){
     console.log(res); 
     this.notification.error('Qualification deleted Successfully')
   })
+  }
+  open(){
+    this.dialog.open(ImageComponent,{
+      width:'40%',
+      height:'60%'
+    })
+  }
+  filechange(event:any){
+    console.log(event.target.files); 
+  }
+  submit(data:any){
+    console.log(data); 
   }
 }

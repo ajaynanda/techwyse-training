@@ -27,6 +27,9 @@ import {  MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatListModule} from '@angular/material/list';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap'
+import { ImageComponent } from './myaccount/image.component';
+import {ImageCropperModule} from 'ngx-image-cropper'
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,6 +41,7 @@ import {MatListModule} from '@angular/material/list';
     ChangepasswordComponent,
     DeleteuserComponent,
     UserlistComponent,
+    ImageComponent
   
 ],  
   imports: [
@@ -59,7 +63,9 @@ import {MatListModule} from '@angular/material/list';
     MatSnackBarModule,
     MatToolbarModule,
     MatSidenavModule,
-    MatListModule
+    MatListModule,
+    NgbModule,
+    ImageCropperModule
   ],
   providers:[ {provide:HTTP_INTERCEPTORS,useClass:TokenInterceptor,multi:true}],
   bootstrap: [AppComponent],

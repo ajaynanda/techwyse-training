@@ -58,5 +58,9 @@ export class ApiserviceService {
  deletecourse(id:any,ids:any){
   return this.http.get(`${environment.deletecourse}/${id}/${ids}`)
  }
+
+ photouplaod(id:any,data:any):Observable<any>{
+   return this.http.post(`${environment.profile}/${id}`,data)
+ }
 }
 

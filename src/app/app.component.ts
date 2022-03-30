@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {  Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Emitters } from 'src/Emmitters/emmitter';
 import { ApiserviceService } from './apiservice.service';
 import { NotificationService } from './notification.service';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,6 +15,7 @@ export class AppComponent implements OnInit {
   today= Date()
   status='active now'
   authenticated= false
+  navopen=true
   constructor(private http:ApiserviceService,private route:Router,private notification:NotificationService){}
   ngOnInit(): void {
     this.names =   JSON.parse(localStorage.getItem('userdata') || '{}')
@@ -46,5 +46,8 @@ export class AppComponent implements OnInit {
      this.route.navigate(['Login'])
      this.authenticated=false
      })
+ }
+ nav(){
+   this.navopen=!this.navopen
  }
 }

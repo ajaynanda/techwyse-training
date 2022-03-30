@@ -2,25 +2,23 @@
   <span><h1>App</h1></span>
   <input type="hidden" #selection>
   <div id="reglognav" *ngIf='!authenticated' >
-    <button class="navbutton btn btn-primary" ><a routerLink="/Home" routerLinkActive="active">Home</a></button>
-    <button class="navbutton btn btn-primary" ><a routerLink="/Register" routerLinkActive="active">Register</a></button>
-    <button class="navbutton btn btn-primary" ><a routerLink="/Login" routerLinkActive="active">Login</a></button>
+    <button class=" btn btn-primary navbutton" ><a routerLink="/Home" routerLinkActive="active" >Home</a></button>
+    <button class=" btn btn-primary navbutton" ><a routerLink="/Register" routerLinkActive="active" >Register</a></button>
+    <button class=" btn btn-primary navbutton" ><a routerLink="/Login" routerLinkActive="active" >Login</a></button>
   </div>
-<div id="reglognav" *ngIf='authenticated' >
-  <div class="dropdown">
-    <button id="btn"  class="navbutton btn btn-primary" >Profile<span id="span" ><i class="bi-caret-down-fill"></i></span></button>
+  <div id="reglognav"  *ngIf="authenticated"> 
+  <div class="dropdown ">
+          <button id="btn"  class="navbutton btn btn-primary " >Profile<span id="span" ><i class="bi-caret-down-fill"></i></span></button>
     <div class="dropdown-content">
-      <a routerLink="/myprofile">My account</a>
+      <a routerLink="/myprofile" >My account</a>
     </div>
   </div>
-  <span>{{today | date:'fullDate'}}</span>
-  <span>{{status}}</span>
-  <i class="bi bi-person-fill"></i>
-  
-  <a routerLink="/dashboard" style="text-transform: uppercase;"> {{name.Firstname}} </a>
-  <button (click) = "Logout()" class="navbutton btn btn-primary" ><a>Logout</a></button>
- 
-  </div>
+  <span class="navbutton">{{today | date:'fullDate'}}</span>
+  <span class="navbutton">{{status}}</span>
+  <i class="bi bi-person-fill"></i>  
+  <a routerLink="/dashboard" style="text-transform: uppercase;" > {{name.Firstname}} </a>
+  <button (click) = "Logout()" class=" btn btn-primary navbutton" ><a >Logout</a></button>
+ </div>
 </div>
 <router-outlet></router-outlet>
 

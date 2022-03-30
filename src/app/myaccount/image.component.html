@@ -1,0 +1,33 @@
+<div class="container m-auto" style="text-align:center;" >
+    <div class="col-md-12" >
+        <button *ngIf="imagechange  && imagefiles && !cropped" mat-button color="accent" (click)="preview()">Crop image</button>
+        <form [formGroup]="uploadForm"  (submit)="postimage(user._id,uploadForm.value)">
+            <div *ngIf="imagefiles && previews"  style="float:right;">
+                <button mat-button color="accent"   (click)="remove()">Remove</button>
+                <image-cropper
+                [imageChangedEvent]="imageEvent"
+                [aspectRatio]="4/4"
+                [maintainAspectRatio]="true"
+                [resizeToWidth]="656"
+                format="jpeg"
+                (imageCropped)="cropImg($event)"
+                (imageLoaded)="imgLoad()"
+                (cropperReady)="initCropper()"
+                (loadImageFailed)="imgFailed()"
+                >
+                </image-cropper>
+            </div>
+            <img *ngIf="!imagechange && !imagefiles"  src="../../assets/{{user.profileimage.cropimg}}?../../assets/{{user.profileimage.cropimg}}:../../assets/{{user.profileimage.profile}}" width="300px" height="300px" alt=""><br><br>
+            
+            <img *ngIf="imagechange  && imagefiles && !cropped"   [src]="newimage" width="300px" height="300px" alt=""><br><br>
+            <img *ngIf="cropped"   [src]="cropImgPreview" width="300px" height="300px" alt=""><br><br>
+            <input  type="file" ngModel class="form-control"   name="images" (change)="filers($event)"> <br>
+          <input style="display: none;" type="file" name="cropimg">
+         
+            <button mat-raised-button color="primary"  type="submit" class="btn " style="color: white;" >Save Changes</button><br><br>
+        </form>
+      
+       
+    </div>
+</div>
+

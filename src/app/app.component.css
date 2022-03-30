@@ -76,6 +76,9 @@
       padding: 5px;
       margin: 5px;
   }
+  .navbar-toggler-icon {
+    background-image: url('https://mdbootstrap.com/img/svg/hamburger6.svg?color=000');
+  }
   .dropdown-content a:hover {background-color: blue;border-radius: 10px;color: white;}
   
   .dropdown:hover .dropdown-content {display: block;}
