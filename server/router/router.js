@@ -260,7 +260,7 @@ router.post('/public/:id',((req,res)=>{
         })
       
 }))
-router.delete('/public/:filename',((req,res)=>{
+router.get('/public/:id/:profile/:crop',((req,res)=>{
         Controllers.deleteimage(req,res).then((result)=>{
                 res.status(200).json(result)
         }).catch(err=>{

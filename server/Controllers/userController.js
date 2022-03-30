@@ -308,11 +308,12 @@ const imageUpload = ((req, res) => {
 })
 const deleteimage = ((req, res) => {
     return new Promise((resolve, reject) => {
-        Userdb.updateOne({ 'profileimage': req.params.filename }, { $pull: { 'profileimage': req.params.filename } }).then((result) => {
-            resolve({ sucess: true, message: "image deleted successfully" })
-        }).catch(err => {
-            reject(err)
-        })
+      Userdb.updateOne({'_id':req.params.id},{$unset:{'profileimage':{profile:req.params.profile,cropimg:req.params.crop}}}).then((result)=>{
+          resolve({Success:true,message:"Deleted Profile photo"})
+      }).catch(err=>{
+          console.log(err);
+          reject({Error:true,message:"Error on deletion"})
+      })
     })
 })
 module.exports = {
