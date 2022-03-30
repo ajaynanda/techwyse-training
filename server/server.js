@@ -13,6 +13,7 @@ app.use(session({
     saveUninitialized:true,
     resave:false
 }))
+
 app.use(express.static(path.join(__dirname + '/public')))
 app.set('view engine', 'handlebars');
 app.use(morgan('tiny'))

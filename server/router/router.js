@@ -3,6 +3,7 @@ const Controllers = require('../Controllers/userController')
 const Controller = require('../Controllers/customerController')
 const aggregation = require("../Controllers/aggController")
 const subdoc = require("../Controllers/subdocController")
+const upload = require("../imageupload/upload")
 router.get('/add',((req,res)=>{
         aggregation.add(req,res).then((result)=>{
                 return res.status(200).json(result)
@@ -105,7 +106,7 @@ router.post('/login', ((req, res) => {
         })
 }))
 router.get('/getuser/:id', ((req, res) => {
-        Controllers.verifytoken(req, res).then((results) => {
+      
                 Controllers.getuserById(req, res).then((result) => {
                         return res.status(200).send({
                                 success: true,
@@ -116,9 +117,7 @@ router.get('/getuser/:id', ((req, res) => {
                                 err
                         })
                 })
-        }).catch(err => {
-                return res.status(401).json(err)
-        })
+      
 }))
 router.get("/search/:name",((req,res)=>{
         Controllers.search(req,res).then((result)=>{
@@ -192,9 +191,6 @@ router.put('/changepassword/:id', ((req, res) => {
         })
 }))
 router.get('/logout', ((req, res, next) => {
-        Controllers.verifytoken(req, res).then((results) => {
-                console.log("Authenticated");
-                console.log(results);
                 Controllers.Logout(req, res).then((result) => {
                         res.status(200).json({
                                 success: true,
@@ -203,9 +199,6 @@ router.get('/logout', ((req, res, next) => {
                 }).catch(err => {
                         return res.status(401).json(err)
                 })
-        }).catch(err => {
-                return res.status(401).json(err)
-        })
 }))
 router.get("/deletepost/:id",((req,res)=>{
         subdoc.deletepost(req,res).then((result)=>{
@@ -233,6 +226,45 @@ router.get("/updatepost/:id",((req,res)=>{
                 return res.status(200).json(result)
         }).catch(err=>{
                 return res.status(401).json(err)
+        })
+}))
+router.put('/updatecourse/:id',((req,res)=>{
+        Controllers.updatecourse(req,res).then((result)=>{
+                res.status(200).json({result})
+        }).catch(err=>{
+                res.status(500).json({err})
+        })
+}))
+router.post('/addcourse/:id',((req,res)=>{
+        Controllers.addcourse(req,res).then((result)=>{
+                res.status(200).json({result})
+        }).catch(err=>{
+                res.status(500).json({err})
+        })
+}))
+router.get('/deletecourse/:id/:editid',((req,res)=>{
+        Controllers.deletecourse(req,res).then((result)=>{
+                return res.status(200).json(result)
+        }).catch(err=>{
+                return res.status(500).json(err)
+        })
+}))
+router.post('/public/:id',((req,res)=>{
+   
+        Controllers.imageUpload(req,res).then((result)=>{
+               
+                res.status(200).json(result)
+        }).catch(err=>{
+                console.log(err);
+                res.status(500).json(err)
+        })
+      
+}))
+router.delete('/public/:filename',((req,res)=>{
+        Controllers.deleteimage(req,res).then((result)=>{
+                res.status(200).json(result)
+        }).catch(err=>{
+                res.status(500).json(err)
         })
 }))
 module.exports = router

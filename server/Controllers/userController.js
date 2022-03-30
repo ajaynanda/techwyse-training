@@ -3,6 +3,8 @@ const Userdb = require("../model/user")
 const { check, validationResult } = require("express-validator")
 const jwt = require("jsonwebtoken")
 const Emailsend = require('../Nodemailer/emailsend')
+const upload = require('../imageupload/upload')
+const cropupload = require('../imageupload/upload')
 require("dotenv").config()
 const Register = ([
     check("fname")
@@ -13,7 +15,7 @@ const Register = ([
         .exists()
         .isLength({ min: 6 }).withMessage("password must be atleast 6 Characters long"),
     check('email')
-        .isEmail().withMessage( "Email is not valid")
+        .isEmail().withMessage("Email is not valid")
         .normalizeEmail()
 ], (req, res) => {
     return new Promise((resolve, reject) => {
@@ -23,35 +25,35 @@ const Register = ([
                 return reject({ errors: errors.array() })
             }
             if (user) {
-                
+
                 return reject({ Error: true, Message: "Email already exists " })
             } else {
-                const num =  Math.floor(Math.random() * 100000000000 + 1)
+                const num = Math.floor(Math.random() * 100000000000 + 1)
                 const passwordgen = num.toString(34)
                 console.log(passwordgen);
-               Emailsend(req,passwordgen)
-                 const hashpassword = await bcrypt.hash(passwordgen, 10)
-                    const user = new Userdb({
+                Emailsend(req, passwordgen)
+                const hashpassword = await bcrypt.hash(passwordgen, 10)
+                const user = new Userdb({
                     Firstname: req.body.fname,
                     Lastname: req.body.lname,
                     Email: req.body.email,
                     dateofbirth: req.body.dob,
                     Gender: req.body.gender,
                     Proffession: req.body.prof,
-                    Password:hashpassword,
-                    messages:[{
-                        userId:req.body.email,
-                        message:req.body.message,
+                    Password: hashpassword,
+                    messages: [{
+                        userId: req.body.email,
+                        message: req.body.message,
                     }
                     ],
-                    posts:[{
-                        userId:req.body.email,
-                        image:req.body.image,
-                        description:req.body.description
+                    posts: [{
+                        userId: req.body.email,
+                        image: req.body.image,
+                        description: req.body.description
                     }]
                 })
-               
-console.log(passwordgen);
+
+                console.log(passwordgen);
 
                 user.save(user).then(() => {
                     if (user) {
@@ -75,7 +77,7 @@ const Login = ((req, res) => {
                 const password = user.Password
                 console.log(user);
                 bcrypt.compare(req.body.password, password).then((users) => {
-                   console.log(users);
+                    console.log(users);
                     if (!users) {
                         return reject({ Error: true, Message: "Password Incorrect " })
                     }
@@ -232,6 +234,87 @@ const verifytoken = ((req, res) => {
         }))
     })
 })
+const updatecourse = ((req, res) => {
+    return new Promise((resolve, reject) => {
+        Userdb.updateOne({ 'Qualification._id': req.body.editid }, { '$set': { 'Qualification.$.coursename': req.body.name, 'Qualification.$.Institute': req.body.institute, 'Qualification.$.percentage': req.body.percentage } }).then((result) => {
+            resolve({ success: true, message: "qualification updated", data: result })
+        }).catch(err => {
+            reject({ Error: true, message: "error on updation", err: err })
+        })
+    })
+})
+const addcourse = ((req, res) => {
+    return new Promise((resolve, reject) => {
+        const id = req.params.id
+        const user = Userdb.findById(id)
+        if (user) {
+            const data = {
+                coursename: req.body.name,
+                Institute: req.body.institute,
+                percentage: req.body.percentage
+            }
+            console.log(data);
+            Userdb.findByIdAndUpdate(id, { $push: { Qualification: data } }).then((result) => {
+                resolve({ success: true, message: "course added", data: result })
+            }).catch(err => {
+                reject({ Error: true, message: "error on updation", err: err })
+            })
+        }
+    })
+})
+const deletecourse = ((req, res) => {
+    return new Promise(async (resolve, reject) => {
+        const id = req.params.id
+        console.log(req.body.editid);
+        Userdb.updateOne({ '_id': req.params.id }, { $pull: { 'Qualification': { _id: req.params.editid } } }).then((result) => {
+            resolve({ sucess: true, message: "deleted the qulafication", data: result })
+        }).catch(err => {
+            return reject({ error: true, message: "error on deletion", err: err })
+        })
+    })
+})
+const imageUpload = ((req, res) => {
+    return new Promise((resolve, reject) => {
+      
+            
+            upload(req, res, (err) => {
+                if (err) reject(err)
+                if (!req.files) {
+                    reject({ error: true, message: "select a file to be uploaded",Error:err })
+                }
+                else {
+                    
+                    const fileinfo =req.files
+                    console.log(fileinfo);
+                   
+                    const imgurl = `http://localhost:4000/public/${fileinfo.images[0].filename}`
+                    const data = {
+                        profileimage:{
+                          profile: req.files.images[0].filename,
+                          cropimg: req.files.cropimg[0].filename || null,
+                          imageUrl:imgurl        
+                        }
+                    }
+                    const id = req.params.id
+                    Userdb.findByIdAndUpdate(id, data).then((result) => {
+                        resolve({ success: true, message: "image uploaded successfully", data: data, ImageUrl: imgurl })
+                    }).catch(err => {
+                        console.log(err);
+                        res.status(500).json(err)
+                    })
+                }
+            })
+    })
+})
+const deleteimage = ((req, res) => {
+    return new Promise((resolve, reject) => {
+        Userdb.updateOne({ 'profileimage': req.params.filename }, { $pull: { 'profileimage': req.params.filename } }).then((result) => {
+            resolve({ sucess: true, message: "image deleted successfully" })
+        }).catch(err => {
+            reject(err)
+        })
+    })
+})
 module.exports = {
     Login,
     Logout,
@@ -243,5 +326,11 @@ module.exports = {
     Deleteuser,
     Register,
     Pagination,
-    search
+    search,
+    updatecourse,
+    addcourse,
+    deletecourse,
+    imageUpload,
+    deleteimage
+
 }

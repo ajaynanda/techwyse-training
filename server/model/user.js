@@ -17,37 +17,51 @@ const messageSchema = new mongoose.Schema({
     },
     message:{
         type:String,
-        required:true
+       
     }
 },{timestamps:true})
+const qualiSchema = new mongoose.Schema({
+    coursename:{
+        type:String
+    },
+    Institute:{
+        type:String
+    },
+    percentage:{
+        type:Number
+    }
+},{timestamps:true})
+
 const Userschema = new  mongoose.Schema({
     Firstname:{
         type:String,
         lowercase:true,
-        required:true
+       
     },
     Lastname:{
         type:String,
-        required:true
+      
     },
     Email:{
         type:String,
-        required:true
+        
     },
     Password:{
         type:String,
     },
     dateofbirth:{
-        type:String,
-        required:true
+        type:String,    
     },
     Proffession:{
         type:String,
-        required:true
     },
-    Gender:{
-        type:String,
-        required:true
+    profileimage:{
+        cropimg:String ,
+        profile:String,
+        imageUrl:String,
+    },
+     Gender:{
+        type:String,       
     },
     messages:[
         messageSchema
@@ -55,6 +69,7 @@ const Userschema = new  mongoose.Schema({
     posts:[
         postschema
     ],
+    Qualification:[qualiSchema]
 },
 {timestamps:true})
 Userschema.plugin(mongoosePaginate)
