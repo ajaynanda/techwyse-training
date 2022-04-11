@@ -14,5 +14,19 @@ export const environment = {
   updatecourse:'updatecourse',
   addcourse:"addcourse",
   deletecourse:"deletecourse",
-  profile:'public'
+  profile:'public',
+  deleteprofile:'public',
+  inlineadduser:"adduser",
+  inlineupdatesuer:'updateinlineuser',
+  inlinedeleteuser:'deleteinlineuser',
+  inlinefinduser:'findinlineusers',
+  findteam:'findteam',
+  addteam:'addteam',
+  addchild:'addchild',
+  updateteam:'updateteam',
+  updatechild:'updatechild',
+  deleteteam:'deleteteam',
+  deletechild:'deletechild',
+  arrayremoveitem:'arrayremoveitem',
+  changearray:'changearray'
 };

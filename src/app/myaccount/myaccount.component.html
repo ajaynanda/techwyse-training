@@ -5,7 +5,8 @@
 <div class="row">
     <div class="col-md-3">
         <div class="profile">
-                   <img src='../../assets/{{user.profileimage.cropimg}}?../../assets/{{user.profileimage.cropimg}}:../../assets/{{user.profileimage.profile}} ' width="100px" height="100px">
+                   <img *ngIf="show" src='../../assets/{{user.profileimage.cropimg}}?../../assets/{{user.profileimage.cropimg}}:../../assets/{{user.profileimage.profile}}' alt="Upload Image" width="100px" height="100px">
+                   <img *ngIf="!show" src="../../assets/default.jpg" width="100px" height="100px">
                <img class="responsive-img" src="../../assets/camera.png.png" (click)="open()" width="35px" height="35px">
                 </div>
         <h4 style="text-align: center;text-transform: uppercase;font-size: larger;font-weight: 600;">{{user.Firstname}} {{user.Lastname}}</h4>

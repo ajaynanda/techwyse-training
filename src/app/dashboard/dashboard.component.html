@@ -1,8 +1,7 @@
 
         <mat-sidenav-container autosize>
             <mat-sidenav #sidenav mode="side" opened="true">
-              <mat-nav-list>
-          
+              <mat-nav-list>     
                 <mat-list-item>
                   <mat-icon mat-list-icon class="chevron-button sidenav-button" (click)="isExpanded = !isExpanded" [ngClass]="{'rotated': isExpanded}">chevron_right</mat-icon>
                 </mat-list-item>
@@ -13,6 +12,14 @@
                 <mat-list-item [routerLink]="'dashboard'">
                     <mat-icon mat-list-icon title="myprofile">  <a routerLink="/myprofile">person</a> </mat-icon>
                     <span *ngIf="isExpanded">  <a routerLink="/myprofile">My account</a></span>
+                  </mat-list-item>
+                  <mat-list-item [routerLink]="'inline'">
+                    <mat-icon mat-list-icon title="Edit user">  <a routerLink="/inline">edit</a></mat-icon>
+                    <span *ngIf="isExpanded"> <a routerLink="/inline">Inline Edit</a></span>
+                  </mat-list-item>
+                  <mat-list-item [routerLink]="'tree'">
+                    <mat-icon mat-list-icon title="Team List">  <a routerLink="/tree">group</a></mat-icon>
+                    <span *ngIf="isExpanded"> <a routerLink="/tree">Team List</a></span>
                   </mat-list-item>
                 <mat-list-item [routerLink]="'dashboard'">
                     <mat-icon mat-list-icon title="update my account"><a (click)="updatebyid(data,data._id)">update</a></mat-icon>
@@ -26,6 +33,7 @@
                     <mat-icon mat-list-icon title="delete my account">  <a (click)="deletebyid(data._id)">delete</a></mat-icon>
                     <span *ngIf="isExpanded"> <a (click)="deletebyid(data._id)">Delete Account</a></span>
                   </mat-list-item>
+
               </mat-nav-list>
             </mat-sidenav>
             <div class="content">

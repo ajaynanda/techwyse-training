@@ -22,14 +22,26 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
-import {MatIconModule} from '@angular/material/icon'
+import {MatIconModule} from '@angular/material/icon';
+import {MatCardModule} from '@angular/material/card'
 import {  MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatListModule} from '@angular/material/list';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap'
 import { ImageComponent } from './myaccount/image.component';
-import {ImageCropperModule} from 'ngx-image-cropper'
+import {ImageCropperModule} from 'ngx-image-cropper';
+import { InlineditComponent } from './inlinedit/inlinedit.component';
+import {Ng2SearchPipeModule} from 'ng2-search-filter';
+import {Ng2OrderModule} from "ng2-order-pipe";
+import {NgxPaginationModule} from 'ngx-pagination';
+import { TreeComponent } from './tree/tree.component';
+import {MatTreeModule} from '@angular/material/tree';
+import { TreeGridModule } from '@syncfusion/ej2-angular-treegrid';
+import { AddComponent } from './tree/add.component';
+import {DragDropModule} from '@angular/cdk/drag-drop' ;
+import {TreeViewModule} from '@syncfusion/ej2-angular-navigations'
+import { MatExpansionModule } from '@angular/material/expansion';
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,8 +53,10 @@ import {ImageCropperModule} from 'ngx-image-cropper'
     ChangepasswordComponent,
     DeleteuserComponent,
     UserlistComponent,
-    ImageComponent
-  
+    ImageComponent,
+    InlineditComponent,
+    TreeComponent,
+    AddComponent
 ],  
   imports: [
     BrowserModule,
@@ -65,7 +79,16 @@ import {ImageCropperModule} from 'ngx-image-cropper'
     MatSidenavModule,
     MatListModule,
     NgbModule,
-    ImageCropperModule
+    ImageCropperModule,
+    Ng2SearchPipeModule,
+    Ng2OrderModule,
+    NgxPaginationModule,
+    MatTreeModule,
+    TreeGridModule,
+    DragDropModule,
+    MatCardModule,
+    TreeViewModule,
+    MatExpansionModule
   ],
   providers:[ {provide:HTTP_INTERCEPTORS,useClass:TokenInterceptor,multi:true}],
   bootstrap: [AppComponent],

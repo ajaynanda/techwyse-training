@@ -32,6 +32,8 @@ export class UserlistComponent implements OnInit {
     })
   }
   filter($event: any) {
+    console.log(this.dataSource);
+    
     this.dataSource.filter = $event.target.value
   }
   openDialog(row: any, id: any) {

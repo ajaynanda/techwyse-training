@@ -18,6 +18,7 @@ array=new array()
 result:any
 editdata:any
 dataarray:any=[]
+show=false
   constructor(private http:ApiserviceService,private notification:NotificationService,private dialog:MatDialog) { }
 
   ngOnInit(): void {
@@ -25,12 +26,22 @@ dataarray:any=[]
     const id = name._id
     this.http.getuserbyid(id).subscribe((res:any)=>{
     this.user = res.data
+    
     this.result= res.data.Qualification
+    console.log(this.result);
+    
     this.authenticated = true
     this.array=new array()
     this.dataarray.push(this.array)
+    if(this.user.profileimage.profile){
+      this.show = true
+    }else{
+      this.show=false
+    }
     })
+   
   }
+  
   updatecourse(id:any,data:any){
     console.log(data);
     console.log(this.dataarray);  
@@ -48,6 +59,7 @@ dataarray:any=[]
     })
   }) 
   }
+  
   edit(id:any,data:any){
     console.log(data);
       this.editdata=data
@@ -70,8 +82,8 @@ close(id:any,editid:any){
   }
   open(){
     this.dialog.open(ImageComponent,{
-      width:'40%',
-      height:'60%'
+      width:'60%',
+      height:'80%'
     })
   }
   filechange(event:any){
@@ -80,4 +92,5 @@ close(id:any,editid:any){
   submit(data:any){
     console.log(data); 
   }
+ 
 }

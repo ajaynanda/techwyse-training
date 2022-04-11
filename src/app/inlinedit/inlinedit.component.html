@@ -1,0 +1,107 @@
+<div class="container">
+
+  <h1>UserList with inline edit</h1>
+  <div class="row">
+    <div class="col-md-4">
+      <input type="search" class="form-control" name="search" [(ngModel)]="searchText"
+        placeholder="Enter Names to search">
+    </div>
+    <button class="btn btn-primary p-1 m-1" *ngIf="adds" (click)="add()">Add User</button>
+
+    <form class="forms" [formGroup]="inlineForm" *ngFor="let data of dataarray">
+      <div class="row">
+        <div class="col-md-3">
+          <input type="text" placeholder="Enter name" formControlName="name" class="form-control"
+            [(ngModel)]="data.name" name="name">
+        </div>
+        <div class="col-md-3">
+          <input type="text" placeholder="Enter Email" formControlName="email" class="form-control"
+            [(ngModel)]="data.email" name="email">
+        </div>
+        <div class="col-md-3">
+          <input type="text" placeholder="Enter Phone" formControlName="phone" class="form-control"
+            [(ngModel)]="data.phone" name="phone">
+        </div>
+        <div class="col-md-3">
+          <input type="text" placeholder="Enter City" formControlName="city" class="form-control"
+            [(ngModel)]="data.city" name="city">
+
+          <button class="btn btn-success" (click)="adduser(inlineForm.value)">Add user</button>
+          <button class="btn btn-danger" (click)="cancels()">Close</button>
+        </div>
+      </div>
+    </form>
+
+    <form [formGroup]="inlineForm">
+      <table class="table">
+        <thead>
+          <th>Sl.no</th>
+          <th>Name<span (click)="sort(user.Name)"><i class="bi bi-arrow-up-circle"></i></span></th>
+          <th>Email<span (click)="sort(user.Email)"><i class="bi bi-arrow-up-circle"></i></span></th>
+          <th>Phone<span (click)="sort(user.Phone)"><i class="bi bi-arrow-up-circle"></i></span></th>
+          <th>City<span (click)="sort(user.City)"><i class="bi bi-arrow-up-circle"></i></span></th>
+          <th>Actions</th>
+        </thead>
+        <tbody>
+
+          <tr
+            *ngFor="let user of user | filter:searchText | paginate:{itemsPerPage:5,currentPage:p} | orderBy:key:reverse ; let i = index ">
+            <td>{{i+1}}</td>
+            <td class="td-fix">
+              <div *ngIf="!user.isEdit ">
+                {{user.Name}}
+              </div>
+
+              <div *ngIf="user.isEdit">
+                <input autofocus type="text" class="form-control" name="name" formControlName="name"
+                  [(ngModel)]="user.Name">
+                <p class="error" *ngIf="email && email.invalid && email.touched">Enter Your Name</p>
+              </div>
+            </td>
+            <td>
+              <div *ngIf="!user.isEdit">
+                {{user.Email}}
+              </div>
+              <div *ngIf="user.isEdit">
+                <input type="text" class="form-control" name="email" formControlName="email" [(ngModel)]="user.Email">
+                <p class="error" *ngIf="email && email.invalid && email.touched">Enter Valid Email Address</p>
+              </div>
+            </td>
+            <td>
+              <div *ngIf="!user.isEdit">
+                {{user.Phone}}
+              </div>
+              <div *ngIf="user.isEdit">
+                <input class="form-control" type="text" name="phone" formControlName="phone" [(ngModel)]="user.Phone">
+                <p class="error" *ngIf="phone && phone.invalid && phone.touched">Enter valid Phone Number</p>
+              </div>
+            </td>
+            <td>
+              <div *ngIf="!user.isEdit">
+                {{user.City}}
+              </div>
+              <div *ngIf="user.isEdit">
+                <input class="form-control" type="text" name="city" formControlName="city" [(ngModel)]="user.City">
+                <p class="error" *ngIf="city && city.invalid && city.touched">Enter Your City</p>
+              </div>
+            </td>
+            <td>
+              <div *ngIf="!user.isEdit">
+                <button class="btn btn-primary" (click)="edits(user)"><i class="bi bi-pencil-fill"></i></button>
+                <button class="btn btn-danger" (click)="delete(user._id,user)"><i class="bi bi-trash"></i></button>
+              </div>
+              <div *ngIf="user.isEdit">
+                <button class="btn btn-success" [disabled]="inlineForm.invalid" (click)="update(user._id,user)"><i
+                    class="bi bi-save"></i></button>
+                <button class="btn btn-danger" (click)="cancel(user)"><i class="bi bi-x-circle-fill"></i></button>
+              </div>
+
+            </td>
+          </tr>
+        </tbody>
+        <pagination-controls (pageChange)="p=$event" style="float: right;"></pagination-controls>
+      </table>
+    </form>
+
+  </div>
+</div>

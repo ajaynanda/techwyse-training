@@ -31,6 +31,8 @@ Regform = new FormGroup({
    message:new FormControl('',[Validators.required])
  })
  postuser(){
+   console.log(this.Regform.value);
+   
   this.http.postusers(this.Regform.value).subscribe((res)=>{
     if(res){
      this.successmsg = res.message

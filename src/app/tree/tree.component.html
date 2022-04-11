@@ -1,0 +1,203 @@
+<div class="container">
+  <button class="btn btn-primary" (click)="addteamleaderform()">Add</button>
+  <form class="addform" [formGroup]="addteamform" (ngSubmit)="addteam()" *ngFor="let data of datarray">
+    <mat-card>
+      <input type="text" formControlName="name" class="form-control" [(ngModel)]="data.name" placeholder="Name"
+        name="name">
+      <input type="text" formControlName="team" class="form-control" [(ngModel)]="data.team" placeholder="team"
+        name="team">
+      <input type="text" formControlName="teamid" class="form-control" [(ngModel)]="data.teamid" placeholder="teamid"
+        name="teamid">
+      <input type="text" formControlName="position" class="form-control" [(ngModel)]="data.position"
+        placeholder="position" name="position">
+      <button type="submit" class="btn btn-success">Add</button>
+      <button type="submit" (click)="remove()" class="btn btn-danger">Close</button>
+    </mat-card>
+  </form>
+ <div  >    
+   <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" cdkDropListGroup>
+       This is the tree node template for leaf nodes
+
+     <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding >
+       
+        <button mat-icon-button disabled></button>
+
+        <table class="table drag-item" >
+          <tbody  cdkDragHandle cdkDropList [id]="node.id"  [cdkDropListConnectedTo]="idsList" [cdkDropListData]="node" (cdkDropListDropped)="ondrop($event)">
+            <tr cdkDrag  cdkDragLockAxis="y" cdkDragBoundary=".container">
+              <td>{{node.name}}</td>
+              <td>{{node.position}} </td>
+              <td>{{node.team}}</td>
+              <td>{{node.teamid}}</td>
+              <td>
+                <button class="btn" (click)="add(node)">Add</button>
+                <button class="btn" (click)="update(node)">Update</button>
+                <button (click)="deletechild(node._id,node.id)">Delete</button>
+            </tr>
+          </tbody>
+        </table>
+
+      </mat-tree-node>
+
+     
+
+
+      <mat-tree-node *matTreeNodeDef="let nodes;when: hasChild " matTreeNodePadding >
+
+        <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + nodes.name">
+          <mat-icon class="mat-icon-rtl-mirror">
+            {{treeControl.isExpanded(nodes) ? 'expand_more' : 'chevron_right'}}
+          </mat-icon>
+        </button>
+        <table class="table table-sm table-bordered table-striped text-center">
+          <thead>
+            <th>Name</th>
+            <th>Position</th>
+            <th>Team Name</th>
+            <th>Team id</th>
+            <th>Action</th>
+          </thead>
+
+          <tbody cdkDragHandle cdkDropList [id]="idsList"  [cdkDropListData]="nodes" (cdkDropListDropped)="ondrop($event)">
+            <tr cdkDrag>
+              <td> {{nodes.name}}</td>
+              <td>{{nodes.position}} </td>
+              <td>{{nodes.team}}</td>
+              <td>{{nodes.teamid}}</td>
+              <td>
+                <button (click)="add(nodes)">Add</button>
+                <button (click)="update(nodes)">Update</button>
+                <button (click)="deleteteam(nodes.id)">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </mat-tree-node>
+    </mat-tree>
+  </div>
+  <div cdkDropListGroup>
+    <div class="example-container">
+      <h2>To do</h2>
+
+      <div cdkDropList [cdkDropListData]="todo" class="example-list" (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let item of todo" cdkDrag>
+
+          {{item}}
+
+        </div>
+      </div>
+    </div>
+
+    <div class="example-container">
+      <h2>Done</h2>
+
+      <div cdkDropList [cdkDropListData]="done" class="example-list" (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let item of done" cdkDrag>{{item}}</div>
+      </div>
+    </div>
+  </div>
+
+  <table class="table table-sm text-center" cdkDropListGroup>
+    <thead>
+      <th>Name</th>
+      <th>Position</th>
+      <th>Teamid</th>
+      <th>Team</th>
+    </thead> 
+    <tbody *ngFor="let users of user ;let i=index" cdkDropList [cdkDropListData]="users" (cdkDropListDropped)="indrop($event)"  >
+      <tr   cdkDrag class="parentrow">
+        <td>{{users.Name}}</td>
+        <td>{{users.Position}}</td>
+        <td>{{users.Teamid}}</td>
+        <td>{{users.Team}}</td><br>
+       
+      </tr>
+      <tr cdkDrag *ngFor="let child of users.Childrens" cdkDropList [cdkDropListData]="child" (cdkDropListDropped)="indrop($event)">
+        <td> {{child.Name}}</td>
+        <td>{{child.Position}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+<mat-accordion
+  [multi]="true"
+  cdkDropListGroup
+  cdkDropList
+  [cdkDropListData]="user"
+  (cdkDropListDropped)="dropItem($event)"
+>
+<h1 style="text-align: center;">Drag and drop </h1>
+  <mat-expansion-panel
+    cdkDrag
+    [cdkDragData]="parent" 
+     *ngFor="let parent of user; let i = index"
+    class="expansion-bg mat-elevation-z0 cursor-move example-list"
+    #chapterExpansionPanel
+    (mouseenter)="mouseEnterHandler($event, chapterExpansionPanel)"
+    [id]="idList"
+  >
+    <mat-expansion-panel-header class="cursor-move accordion-header-span cursor-pointer example-box">
+      <mat-panel-title>
+        <table class="table  table-bordered table-striped text-center">
+          <thead>
+            <tr>
+              <th>Sl.no</th>
+              <th>Name</th>
+              <th>Team Name</th>
+              <th>Teamid</th>
+              <th>Position</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+      <tbody  >
+        <tr >
+          <td>{{i+1}}</td>
+         <td> {{parent.Name}}</td>
+         <td>{{parent.Team}}</td>
+         <td>{{parent.Teamid}}</td>
+         <td>{{parent.Position}}</td>
+         <td >
+          <button class="btn btn-sm" (click)="add(parent)">Add</button>
+          <button class="btn btn-sm" (click)="update(parent)">Update</button>
+          <button class="btn btn-sm" (click)="deleteteam(parent._id)">Delete</button>
+         </td>
+        </tr>
+      </tbody>
+    </table>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+ 
+    <ng-container>
+      <div
+        cdkDropList
+        [id]="parent._id"
+        [cdkDropListData]="parent.Childrens"
+        [cdkDropListConnectedTo]="idList"
+        class="item-list"
+        (cdkDropListDropped)="dropItem($event)"
+      >
+        <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+        <div
+          class="item-box"
+          class="sub-lesson cursor-move"
+          *ngFor="let child of parent.Childrens; let j = index"
+          cdkDrag
+        >
+          <table class="table table-sm "> 
+          <tbody  class="childtable">  
+          <tr  class="cursor-pointer example-box">
+          <td>{{ child.Name }}</td>
+          <td>{{child.Position}}</td>
+          <td >
+            <button class="btn btn-sm" (click)="update(child)">Update</button>
+            <button class="btn btn-sm"(click)="deletechild(parent._id,child._id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+        </div>
+      </div>
+    </ng-container>
+  </mat-expansion-panel>
+</mat-accordion>
+</div>

@@ -1,15 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { ImageCroppedEvent, ImageCropperModule } from 'ngx-image-cropper';
+import { ImageCroppedEvent} from 'ngx-image-cropper';
 import { ApiserviceService } from '../apiservice.service';
 import { NotificationService } from '../notification.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { ReadVarExpr } from '@angular/compiler';
 import { MatDialogRef } from '@angular/material/dialog';
 const uri = "http://localhost/4000/public";
 @Component({
     selector: 'app-myaccount',
     templateUrl: './image.component.html',
-    styles: [``]
+    styles: [`
+    #upload{
+        padding:5px;
+        margin:10px 10px;
+    }
+    #close{
+        float:right;
+    }
+    `]
 })
 export class ImageComponent implements OnInit {
     imagefiles = false
@@ -28,9 +35,9 @@ export class ImageComponent implements OnInit {
     }
     ngOnInit(): void {
         this.uploadForm = this.formbuilder.group({
-            Image: '',
-            imageurl: '',
-            cropimg: '',
+            Image: String,
+            imageurl:String,
+            cropimg: String,
         })
         const name = JSON.parse(localStorage.getItem('userdata') || '{}');
         const id = name._id
@@ -94,8 +101,19 @@ export class ImageComponent implements OnInit {
         this.uploadForm.reset()
         this.imagefiles = false
         this.imagechange = null
-        this.cropImgPreview = null
+        this.cropImgPreview = this.imagechange
+        this.cropImgPreviewfilename=this.filename
         this.previews = false
+    }
+    deleteprofile(id:any,profile:any,crop:any){
+        this.http.deleteprofile(id,profile,crop).subscribe((res)=>{
+            console.log(res);
+            this.dialog.close(ImageComponent)
+            this.notification.error("Profile Photo Deleted")
+        },(err=>{
+            console.log(err);       
+            this.notification.success("No Profile Photo")
+        }))
     }
     postimage(id: any, data: any) {
         console.log(data);
@@ -110,5 +128,8 @@ export class ImageComponent implements OnInit {
             this.notification.error(err.error.message)
             console.log(err);
         }))
+    }
+    cancel(){
+        this.dialog.close(ImageComponent)
     }
 }

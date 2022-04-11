@@ -5,7 +5,8 @@ import { AuthGuard } from './auth.guard';
 import { ChangepasswordComponent } from './changepassword/changepassword.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { DeleteuserComponent } from './deleteuser/deleteuser.component';
-
+import { InlineditComponent } from './inlinedit/inlinedit.component';
+import {TreeComponent} from './tree/tree.component'
 import { LoginComponent } from './login/login.component';
 import { MyaccountComponent } from './myaccount/myaccount.component';
 import { RegisterComponent } from './register/register.component';
@@ -20,7 +21,9 @@ const routes: Routes = [
   {path:'updateme/:id',component:UpdateComponent,canActivate:[AuthGuard]},
   {path:'changepasswordme/:id',component:ChangepasswordComponent,canActivate:[AuthGuard]},
   {path:'deleteme/:id',component:DeleteuserComponent,canActivate:[AuthGuard]},
-  {path:'userlist',component:UserlistComponent,canActivate:[AuthGuard]}
+  {path:'userlist',component:UserlistComponent,canActivate:[AuthGuard]},
+  {path:'inline',component:InlineditComponent,canActivate:[AuthGuard]},
+  {path:'tree',component:TreeComponent,canActivate:[AuthGuard]}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

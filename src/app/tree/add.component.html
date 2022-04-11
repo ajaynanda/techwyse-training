@@ -1,0 +1,11 @@
+<div class="container">
+    <form [formGroup]="addchildForm">
+        <div class="Add Developers">
+            <input  type="text" formControlName="name" class="form-control" placeholder="Name" name="name">
+            <input style="display: none;" type="text" formControlName="team" class="form-control" placeholder="team" name="team">
+            <input style="display: none;" type="text" formControlName="teamid" class="form-control" placeholder="teamid" name="teamid">
+            <input type="text" formControlName="position" class="form-control" placeholder="position" name="position">
+            <button (click)="addchild(addchildForm.value)" class="btn btn-success">Add</button>
+         </div>
+    </form>
+</div>
