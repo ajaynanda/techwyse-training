@@ -17,7 +17,8 @@ app.use(session({
 app.use(express.static(path.join(__dirname + '/public')))
 app.set('view engine', 'handlebars');
 app.use(morgan('tiny'))
-app.use(bodyParser.json({extended:true}))
+app.use(bodyParser.urlencoded({extended:false}))
+app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(express.json())
 app.use(cors())

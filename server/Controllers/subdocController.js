@@ -1,5 +1,4 @@
 const Userdb = require("../model/user")
-const router = require("../router/router")
 const deletepost  = ((req,res)=>{
     return new Promise((resolve,reject)=>{
         const id = req.params.id

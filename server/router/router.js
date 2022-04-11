@@ -4,6 +4,8 @@ const Controller = require('../Controllers/customerController')
 const aggregation = require("../Controllers/aggController")
 const subdoc = require("../Controllers/subdocController")
 const upload = require("../imageupload/upload")
+const inline = require("../Controllers/inlinecontroller")
+const team=require('../Controllers/treecontroller')
 router.get('/add',((req,res)=>{
         aggregation.add(req,res).then((result)=>{
                 return res.status(200).json(result)
@@ -267,4 +269,91 @@ router.get('/public/:id/:profile/:crop',((req,res)=>{
                 res.status(500).json(err)
         })
 }))
+
+//inlineusers routes
+router.post('/adduser',(req,res)=>{
+inline.adduser(req,res).then((result)=>{
+        res.status(200).json(result)
+}).catch(err=>{
+        res.status(500).json(err)
+})
+})
+router.put("/updateinlineuser/:id",((req,res)=>{
+        inline.updateuser(req,res).then((result)=>{
+                res.status(200).json(result)
+        }).catch(err=>{
+                res.status(500).json(err)
+        })
+}))
+router.delete("/deleteinlineuser/:id",((req,res)=>{
+        inline.deleteuser(req,res).then((result)=>{
+                res.status(200).json(result)
+        }).catch(err=>{
+                res.status(500).json(err)
+        })
+}))
+router.get("/findinlineusers",((req,res)=>{
+        inline.inlineusers(req,res).then((result)=>{
+                res.status(200).json(result)
+        }).catch(err=>{
+                res.status(500).json(err)
+        })
+}))
+router.post('/addteam',((req,res)=>{
+        team.add(req,res).then((result)=>{
+                res.status(200).json(result)
+        }).catch(err=>{
+                res.status(500).json(err)
+        })
+}))
+router.post('/addchild/:id',((req,res)=>{
+        team.addchild(req,res).then((result)=>{
+                res.status(200).json(result)
+        }).catch(err=>{
+                res.status(500).json(err)
+        })
+}))
+router.get('/findteam',((req,res)=>{
+        team.findteam(req,res).then((result)=>{
+                res.status(200).json(result)
+        }).catch(err=>{
+                res.status(500).json(err)
+        })
+}))
+router.put('/updateteam/:id',((req,res)=>{
+        team.updateteam(req,res).then((result)=>{
+                res.status(200).json(result)
+        }).catch(err=>{
+                res.status(500).json(err)
+        })
+}))
+router.put('/updatechild',((req,res)=>{
+        team.updatechild(req,res).then((result)=>{
+                res.status(200).json(result)
+        }).catch(err=>{
+                res.status(500).json(err)
+        })
+}))
+router.delete('/deleteteam/:id',((req,res)=>{
+        team.deleteteam(req,res).then((result)=>{
+                res.status(200).json(result)
+        }).catch(err=>{
+                res.status(500).json(err)
+        })
+}))
+router.delete('/deletechild/:id/:childid',((req,res)=>{
+        team.deletechild(req,res).then((result)=>{
+                res.status(200).json(result)
+        }).catch(err=>{
+                res.status(500).json(err)
+        })
+}))
+router.get('/arrayremoveitem/:id/:ids/:index/:addid/:ia',((req,res)=>{
+        team.arrayremoveitem(req,res).then((result)=>{
+                res.status(200).json(result)
+        }).catch(err=>{
+                res.status(500).json(err)
+        })
+}))
+
 module.exports = router
