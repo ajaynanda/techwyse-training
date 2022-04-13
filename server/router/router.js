@@ -355,5 +355,11 @@ router.get('/arrayremoveitem/:id/:ids/:index/:addid/:ia',((req,res)=>{
                 res.status(500).json(err)
         })
 }))
-
+router.get('/findteambyid/:id/:p/:c',((req,res)=>{
+        team.findteamByid(req,res).then((result)=>{
+                res.status(200).json(result)
+        }).catch(err=>{
+                res.status(500).json(err)
+        })
+}))
 module.exports = router
