@@ -143,7 +143,7 @@ export class TreeComponent implements OnInit {
     })
    
   }
-  hasChild = (a: number, node: ExampleFlatNode) => node.expandable;
+  hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
   ngOnInit(): void {
   }
  
@@ -177,17 +177,14 @@ export class TreeComponent implements OnInit {
         event.previousIndex,
         event.currentIndex
       );
-      this.http.changearray(event.currentIndex).subscribe((res)=>{
-        console.log(res);
-        
-      })
-    } else {
-    //  console.log(event.previousContainer.data,event.container.data);
-      console.log(event.previousIndex);
-    console.log(event.previousContainer.id,event.previousIndex,event.container.id,event.currentIndex)
+      this.http.findteambyid(event.container.id,event.previousIndex,event.currentIndex).subscribe((res:any)=>{
+        console.log(res);   
+      },(err=>{
+        console.log(err);    
+      }))
+    }    
+     else {
     const ids=event.previousContainer.data[event.previousIndex]._id
-    console.log(ids);
-    
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
@@ -195,8 +192,7 @@ export class TreeComponent implements OnInit {
         event.currentIndex
       );
            this.http.arrayremoveitem(event.previousContainer.id,ids,event.previousIndex,event.container.id,event.currentIndex).subscribe((res:any)=>{
-             console.log(res);
-             
+             console.log(res);        
            },(err=>{
              console.log(err);
              
@@ -206,7 +202,6 @@ export class TreeComponent implements OnInit {
   ondrop(event: CdkDragDrop<string[]>) {
     console.log(event);
     console.log(event.container,event.previousContainer);
-    
     if (event.container === event.previousContainer) {
       moveItemInArray(
         event.container.data,
@@ -251,7 +246,7 @@ export class TreeComponent implements OnInit {
     console.log(event.previousIndex, event.currentIndex);
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-
+    
     } else {
       console.log(event.previousContainer.data,
         event.container.data,
@@ -295,16 +290,13 @@ export class TreeComponent implements OnInit {
     this.http.deleteteam(id).subscribe((res) => {
       console.log(res);
       this.notification.error("Team leader deleted sccessfully")
-
     })
   }
   addteam() {
     console.log(this.addteamform.value);
-
     this.http.addteam(this.addteamform.value).subscribe((res) => {
       console.log(res);
       this.notification.success("Team leader added successfully")
-
     })
   }
   deletechild(id: any, childid: any) {
@@ -313,18 +305,15 @@ export class TreeComponent implements OnInit {
     this.http.deletechild(id, childid).subscribe((res) => {
       console.log(res);
       this.notification.error("Team Member deleted sccessfully")
-
     })
   }
   add(data: any) {
     console.log(data.name);
-
     this.dialog.open(AddComponent, {
       width: '40%',
       data: data
     })
   }
-
 }
 
 

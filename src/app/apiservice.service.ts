@@ -105,5 +105,8 @@ export class ApiserviceService {
  changearray(newindex:any){
    return this.http.get(`${environment.changearray}`,newindex) 
  }
+ findteambyid(id:any,p:any,c:any){
+   return this.http.get(`${environment.findteambyid}/${id}/${p}/${c}`)
+ }
 }
 
