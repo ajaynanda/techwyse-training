@@ -1,0 +1,67 @@
+.nav{
+    margin-top: 100px;
+    text-align: center;
+    color: blue;
+    cursor: pointer;
+    padding: 5px;
+    margin-right: 15px;
+}
+mat-card{
+    margin: 25px;
+    padding: 5px;
+    width: 100%;
+
+}
+img{
+    display:block;
+    margin: auto;
+    padding: 5px;
+}
+input{
+    width: 340px;
+    height: 100px;
+    margin: 10px;
+}
+button{
+    margin: 10px;
+    padding:5px;
+}
+h4{
+    margin-left: 50px;
+}
+
+.toolbar{
+    background-color: aliceblue;
+    margin: 10px auto;
+}
+.toolbarnav{
+    float: right;
+    padding: 5px;
+    margin: 5px;
+}
+canvas{
+ position: fixed;
+    
+}
+mat-icon{
+    margin-right: 20px;
+    padding: 1px 25px;
+}
+.cross{
+    cursor:crosshair;
+}
+.arrow{
+    cursor:e-resize;
+}
+.pointer{
+    cursor:normal;
+}
+.span{
+    display: block;
+    float: right;
+    top: -40px;
+    margin-right: 20px;
+}
+#canvas-wrap { position:relative; }
+#canvas-wrap  canvas { position:absolute; top:0; left:0; z-index:0;border:1px solid black; }
+

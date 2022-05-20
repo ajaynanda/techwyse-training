@@ -10,12 +10,16 @@
     <span >Login to your account</span><br>
     <label>Email</label>
     <input type="email" name="email" formControlName="email" placeholder="Email"><br>
-    <p class="error" *ngIf="email && email.invalid && email.touched">Email is Required</p>
-    <p class="error" *ngIf="emailformat && emailformat.invalid && emailformat.touched">Please Enter a valid Email</p>
+    <span class="error" *ngIf="f['email'].getError('required')!=null">Email is Required</span>
+    <span class="error" *ngIf="f['email'].getError('email')!=null">Please Enter a valid Email</span>
+    <!-- <p class="error" *ngIf="email && email.invalid && email.touched">Email is Required</p>
+    <p class="error" *ngIf="emailformat && emailformat.invalid && emailformat.touched">Please Enter a valid Email</p> -->
     <label>Password</label>
     <input type="password" name="password" formControlName="password"  placeholder="Password"><br>
-    <p class="error" *ngIf="password && password.invalid && password.touched">Please enter Password</p>
-    <p class="error" *ngIf="passwordlength && passwordlength.invalid && passwordlength.touched">Password is not havng valid characters</p>
+    <span class="error" *ngIf="f['password'].getError('required')!=null">Please Enter Password</span>
+    <span class="error" *ngIf="f['password'].getError('minlength')!=null">Password must be atleast 6 characters</span>
+    <!-- <p  *ngIf="password && password.invalid && password.touched">Please enter Password</p>
+    <p class="error" *ngIf="passwordlength && passwordlength.invalid && passwordlength.touched">Password is not havng valid characters</p> -->
     <button [disabled] = "Loginform.invalid" class="submit " type="submit" mat-button color="accent">Login</button>
     <button (click)="register()" class="submit " type="submit" mat-button color="warn">Register</button><br>
   </form>

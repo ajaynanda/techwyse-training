@@ -2,18 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { TOUCH_BUFFER_MS } from '@angular/cdk/a11y/input-modality/input-modality-detector';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root'
 })
 export class ApiserviceService {
   private isLoggedin = new BehaviorSubject<boolean>(false)
   private readonly TOKEN_NAME = 'token'
+  
   httpHeaders = new HttpHeaders().set('Content-Type', 'application/json');
   gettoken(){
     return localStorage.getItem(this.TOKEN_NAME)
   }
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private route:Router) { }
   getalldata() {
     return this.http.get(`${environment.getalluser}`)
   }
@@ -40,6 +41,21 @@ export class ApiserviceService {
   }
   updateuser(id:any,data:any){
     return this.http.put(`${environment.updateuser}/${id}`,data)
+  }
+  haveaccess(){
+    const token = localStorage.getItem('token') || '{}'
+    const extracttoken=token.split('.')[1]
+    const data=atob(extracttoken)
+    const finaldata=JSON.parse(data)
+    console.log(finaldata);
+    
+    if(token) {
+      return true
+    }else{
+      alert("You Have not Logged in")
+      this.route.navigate(['Login'])
+       return false
+    }   
   }
   changepass(id:any,data:any){
     return this.http.put(`${environment.changepassword}/${id}`,data)

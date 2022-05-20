@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Query, ViewChild } from '@angular/core';
 import { ApiserviceService } from '../apiservice.service';
 import { FlatTreeControl, TreeControl } from '@angular/cdk/tree';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
@@ -9,6 +9,11 @@ import { treearray } from '../myaccount/array.model'
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { MatExpansionPanel } from '@angular/material/expansion';
+import { PageSettingsModel, SortSettingsModel, EditSettingsModel, ToolbarItems, FilterSettingsModel, TreeGridComponent ,SelectionSettingsModel} from '@syncfusion/ej2-angular-treegrid'
+import { DataManager, WebApiAdaptor } from '@syncfusion/ej2-data'
+import { ClickEventArgs } from '@syncfusion/ej2-angular-navigations'
+import { ToastComponent } from '@syncfusion/ej2-angular-notifications';
+import {PdfExportProperties,ExcelExportProperties} from '@syncfusion/ej2-grids'
 interface TeamNode {
   Name: string;
   Team: string;
@@ -36,62 +41,22 @@ interface ExampleFlatNode {
 })
 
 export class TreeComponent implements OnInit {
-  user: any=[]
+  public selection!:SelectionSettingsModel
+  public filterSettings!: FilterSettingsModel
+  public pageSettings!: Object
+  public toolbar!: ToolbarItems[]
+  public editsettings!: EditSettingsModel
+  public sort!: SortSettingsModel
+  user: any = []
   userdata:Object[]=[]
-  users: Object[] = []
+  users: any = []
   treearray = new treearray()
   data: any = []
   datarray: any = []
-  childuser: any
-  nestedArray = [
-    {
-      title: 'Parent 1',
-      id: '1', // Make sure ID is in string as to attach it with cdkDropListConnectedTo we need it in string
-      child: [
-        {
-          title: 'Child 11',
-        },
-        {
-          title: 'Child 12',
-        },
-        {
-          title: 'Child 13',
-        },
-      ],
-    },
-    {
-      title: 'Parent 2',
-      id: '2',
-      child: [
-        {
-          title: 'Child 21',
-        },
-        {
-          title: 'Child 22',
-        },
-        {
-          title: 'Child 23',
-        },
-      ],
-    },
-    {
-      title: 'Parent 3',
-      id: '3',
-      child: [
-        {
-          title: 'Child 31',
-        },
-        {
-          title: 'Child 32',
-        },
-        {
-          title: 'Child 33',
-        },
-      ],
-    },
-  ];
-  idList :any= [];
-  idsList:any=[];
+  childuser: any = []
+  idList: any = [];
+  idsList: any = [];
+  public datamanager!: DataManager;
   todo = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
 
   done = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
@@ -120,33 +85,169 @@ export class TreeComponent implements OnInit {
     position: new FormControl('', [Validators.required])
   })
 
+
   constructor(private http: ApiserviceService, private dialog: MatDialog, private notification: NotificationService) {
+
     this.http.findteam().subscribe((res: any) => {
       this.user = res.data
-      this.userdata=res.data
+      this.userdata = res.data
       console.log(this.userdata);
-      this.idList=res.data.map((parent:any) => {
+
+      this.idList = res.data.map((parent: any) => {
         return parent._id
-       })
-       this.idsList=this.idList
-       console.log(this.idList);
+      })
+      this.idsList = this.idList
+      console.log(this.idList);
       this.childuser = res.data.Childrens
       this.user.forEach((element: any) => {
+
+
         element['isEdit'] = false
         element.Childrens.map((o: any) => {
           this.data.push(o)
+          console.log(this.data);
+
         })
       })
       const TREE_DATA: TeamNode[] = this.user
       this.dataSource.data = TREE_DATA;
-    
+
     })
-   
+
   }
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
   ngOnInit(): void {
+    new DataManager({
+      url: 'http://localhost:4000/findteam',
+      adaptor: new WebApiAdaptor(),
+      crossDomain: true
+    })
+    console.log(this.datamanager);
+    this.pageSettings = { pageSize: 4, pageSizes: true }
+    this.sort = {
+      columns: [{ field: 'Teamid', direction: 'Ascending' },
+      { field: 'Name', direction: 'Ascending' },
+      { field: 'Position', direction: 'Ascending' }
+      ]
+    }
+    this.editsettings = { allowEditing: true, allowAdding: true, allowDeleting: true, mode: 'Dialog' }
+    this.toolbar = ['Add', 'Edit', 'Delete', 'Cancel', 'PdfExport', 'CsvExport', 'ExcelExport']
+    this.filterSettings = { ignoreAccent: true,hierarchyMode:'None' }
+    this.selection={ checkboxMode: 'ResetOnRowClick'}
   }
- 
+   @ViewChild('treegrid', { static: false })
+// @ViewChild('element')element:any
+  public treegrid!: TreeGridComponent
+  public position = { X: 'Center' };
+  public toolbarClick(args: ClickEventArgs): void {
+    console.log(args);
+
+    switch (args.item.text) {
+      case 'PDF Export':
+        var exportproperties:PdfExportProperties={
+          fileName:'team details.pdf',
+          header:{
+            fromTop:0,
+            height:130,
+            contents:[{
+              type:'Text',
+              value:'Team Details',
+              position:{x:0,y:60},
+              style:{textBrushColor:'#000000',fontSize:30}
+            }]
+          },
+          footer:{
+            fromBottom:0,
+            height:130,
+            contents:[{
+              type:'Text',
+              value:'End of the Page',
+              position:{x:50,y:50},
+              style:{textBrushColor:'#000000',fontSize:30}
+            }]
+          },
+          theme:{
+            header:{
+                fontColor:'#FF7F07',
+                fontName:'Calibri',
+                fontSize:20,
+                bold:true
+                
+            },
+            record:{
+              fontColor:'#293DEF',
+              fontName:'Calibri',
+              fontSize:10,  
+              bold:true
+            }
+          }
+        }
+      
+        this.treegrid.pdfExport(exportproperties);
+        break;
+      case 'CSV Export':
+       
+        this.treegrid.csvExport();
+        break;
+      case 'Excel Export':
+        let excelproperties:ExcelExportProperties={
+          fileName:'Team Details.xlsx',
+          header:{
+            headerRows:1,
+            rows:[{
+              cells:[{
+                colSpan:4,
+                value:'Team Details',
+                style:{
+                  fontColor:'#293DEF',
+                  fontSize:15,
+                  fontName:'Calibri',
+                  hAlign:"Center"
+                }
+              }]
+            }]
+          },
+          footer:{
+            footerRows:1,
+            rows:[{
+              cells:[{
+                colSpan:4,
+                value:'End Of the Page',
+                style:{
+                  fontColor:'#293DEF',
+                  fontSize:15,
+                  fontName:'Calibri',
+                  hAlign:"Center"
+                }
+              }]
+            }]
+          },
+          theme:{
+            header:{
+                fontColor:'#FF7F07',
+                fontName:'Calibri',
+                fontSize:20,
+                bold:true
+                
+            },
+            record:{
+              fontColor:'#293DEF',
+              fontName:'Calibri',
+              fontSize:10,  
+              bold:true
+            }
+          }
+      }
+        this.treegrid.excelExport(excelproperties);
+        break;
+    }
+  }
+  onCreate(e:any): void {
+    // this.element.show();
+  }
+  btnClick(e:any): void {
+    // this.element.show();
+  }
   update(data: any) {
     console.log(data);
     this.dialog.open(AddComponent, {
@@ -158,7 +259,7 @@ export class TreeComponent implements OnInit {
     console.log(event.container.data, event.previousIndex, event.currentIndex);
     console.log(event.previousContainer, event.container);
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data,event.previousIndex, event.currentIndex);
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
       transferArrayItem(
         event.previousContainer.data,
@@ -166,42 +267,41 @@ export class TreeComponent implements OnInit {
         event.previousIndex,
         event.currentIndex,
       );
- 
     }
   }
-  dropItem(event:any) {
-    console.log(event); 
+  dropItem(event: any) {
+    console.log(event);
     if (event.container === event.previousContainer) {
       moveItemInArray(
         event.container.data,
         event.previousIndex,
         event.currentIndex
       );
-      this.http.findteambyid(event.container.id,event.previousIndex,event.currentIndex).subscribe((res:any)=>{
-        console.log(res);   
-      },(err=>{
-        console.log(err);    
+      this.http.findteambyid(event.container.id, event.previousIndex, event.currentIndex).subscribe((res: any) => {
+        console.log(res);
+      }, (err => {
+        console.log(err);
       }))
-    }    
-     else {
-    const ids=event.previousContainer.data[event.previousIndex]._id
+    }
+    else {
+      const ids = event.previousContainer.data[event.previousIndex]._id
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex
       );
-           this.http.arrayremoveitem(event.previousContainer.id,ids,event.previousIndex,event.container.id,event.currentIndex).subscribe((res:any)=>{
-             console.log(res);        
-           },(err=>{
-             console.log(err);
-             
-           }))
+      this.http.arrayremoveitem(event.previousContainer.id, ids, event.previousIndex, event.container.id, event.currentIndex).subscribe((res: any) => {
+        console.log(res);
+      }, (err => {
+        console.log(err);
+
+      }))
     }
   }
   ondrop(event: CdkDragDrop<string[]>) {
     console.log(event);
-    console.log(event.container,event.previousContainer);
+    console.log(event.container, event.previousContainer);
     if (event.container === event.previousContainer) {
       moveItemInArray(
         event.container.data,
@@ -209,8 +309,8 @@ export class TreeComponent implements OnInit {
         event.currentIndex
       );
     } else {
-      console.log(event.previousContainer.data,event.container.data);
-      
+      console.log(event.previousContainer.data, event.container.data);
+
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
@@ -246,7 +346,7 @@ export class TreeComponent implements OnInit {
     console.log(event.previousIndex, event.currentIndex);
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    
+
     } else {
       console.log(event.previousContainer.data,
         event.container.data,

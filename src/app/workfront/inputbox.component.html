@@ -1,0 +1,11 @@
+
+    <div class="commentbox">
+        <mat-card>
+            <h5>Comment</h5>
+            <form #form="ngForm" (submit)="post(form.value)" >
+            <input #comment="ngModel"  type="text" name="comment" ngModel>
+            <button mat-raised-button color="primary">Post</button>
+        </form>
+            <button mat-raised-button color="danger">Clear</button>
+        </mat-card>
+    </div>

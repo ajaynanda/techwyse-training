@@ -37,11 +37,15 @@ import {Ng2OrderModule} from "ng2-order-pipe";
 import {NgxPaginationModule} from 'ngx-pagination';
 import { TreeComponent } from './tree/tree.component';
 import {MatTreeModule} from '@angular/material/tree';
-import { TreeGridModule } from '@syncfusion/ej2-angular-treegrid';
+import { ExcelExportService, TreeGridModule} from '@syncfusion/ej2-angular-treegrid';
+import { PageService, SortService, FilterService ,ToolbarService,EditService, PdfExportService} from '@syncfusion/ej2-angular-treegrid';
 import { AddComponent } from './tree/add.component';
 import {DragDropModule} from '@angular/cdk/drag-drop' ;
 import {TreeViewModule} from '@syncfusion/ej2-angular-navigations'
 import { MatExpansionModule } from '@angular/material/expansion';
+import { ToastModule } from '@syncfusion/ej2-angular-notifications';
+import { WorkfrontComponent } from './workfront/workfront.component';
+import { InputboxComponent } from './workfront/inputbox.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,7 +60,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
     ImageComponent,
     InlineditComponent,
     TreeComponent,
-    AddComponent
+    AddComponent,
+    WorkfrontComponent,
+    InputboxComponent
 ],  
   imports: [
     BrowserModule,
@@ -79,6 +85,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatSidenavModule,
     MatListModule,
     NgbModule,
+    ToastModule,
     ImageCropperModule,
     Ng2SearchPipeModule,
     Ng2OrderModule,
@@ -90,7 +97,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     TreeViewModule,
     MatExpansionModule
   ],
-  providers:[ {provide:HTTP_INTERCEPTORS,useClass:TokenInterceptor,multi:true}],
+  providers:[ PageService,SortService,FilterService,ToolbarService,EditService, PdfExportService,ExcelExportService,{provide:HTTP_INTERCEPTORS,useClass:TokenInterceptor,multi:true}],
   bootstrap: [AppComponent],
   entryComponents:[]
 })

@@ -41,4 +41,7 @@ get email(){return this.Loginform.get('email')}
 get emailformat(){return this.Loginform.get('email')}
 get password(){return this.Loginform.get('password')}
 get passwordlength(){return this.Loginform.get('password')}
+get f(){
+  return this.Loginform.controls
+}
 }

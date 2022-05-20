@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { ApiserviceService } from '../apiservice.service';
@@ -14,14 +14,17 @@ error:any
 sucess:any
 authenticated= true
   constructor(private http:ApiserviceService,private router:ActivatedRoute,private notification:NotificationService,private dialog:MatDialogRef<ChangepasswordComponent>,
-    @Inject(MAT_DIALOG_DATA) private id:any) { }
+    @Inject(MAT_DIALOG_DATA) private id:any,private formbuilder:FormBuilder) { }
 
   ngOnInit(): void {
   }
-  passwordform = new FormGroup({
-    opassword: new FormControl('',[Validators.required]),
-    npassword:new FormControl('',[Validators.required]),
-  })
+  passwordform = this.formbuilder.group({
+    opassword: new FormControl('',[Validators.required,Validators.minLength(6)]),
+    npassword:new FormControl('',[Validators.required,Validators.minLength(6)]),
+    cpassword:new FormControl('',Validators.required)
+  },{
+      validators:this.mustmatch('npassword','cpassword')
+    })
   changepassword(){
     console.log(this.id._id);
     
@@ -41,5 +44,23 @@ authenticated= true
   get npassword(){return this.passwordform.get('npassword')}
   close(){
     this.dialog.close()
+  }
+  mustmatch(npassword:any,cpassword:any){
+    return (formGroup:FormGroup)=>{
+      const npasswordcontrol=formGroup.controls[npassword]
+      const cpasswordcontrol=formGroup.controls[cpassword]
+      if(cpasswordcontrol.errors && !cpasswordcontrol.errors['mustmatch']){
+        return 
+      }
+      if(npasswordcontrol.value!=cpasswordcontrol.value){
+        cpasswordcontrol.setErrors({mustmatch:true})
+      }else{
+        cpasswordcontrol.setErrors(null)
+      }
+    }
+  }
+  get cpass(){return this.passwordform.get('cpassword')}
+  get f(){
+    return this.passwordform.controls
   }
 }

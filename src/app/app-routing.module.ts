@@ -12,6 +12,7 @@ import { MyaccountComponent } from './myaccount/myaccount.component';
 import { RegisterComponent } from './register/register.component';
 import { UpdateComponent } from './update/update.component';
 import { UserlistComponent } from './userlist/userlist.component';
+import { WorkfrontComponent } from './workfront/workfront.component';
 const routes: Routes = [
   { path: 'Login', component: LoginComponent},
   { path: 'Register', component: RegisterComponent },
@@ -23,7 +24,8 @@ const routes: Routes = [
   {path:'deleteme/:id',component:DeleteuserComponent,canActivate:[AuthGuard]},
   {path:'userlist',component:UserlistComponent,canActivate:[AuthGuard]},
   {path:'inline',component:InlineditComponent,canActivate:[AuthGuard]},
-  {path:'tree',component:TreeComponent,canActivate:[AuthGuard]}
+  {path:'tree',component:TreeComponent,canActivate:[AuthGuard]},
+  {path:'work',component:WorkfrontComponent}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
