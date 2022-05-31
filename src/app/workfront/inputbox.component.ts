@@ -23,15 +23,15 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
     }
     `],
 })
-export class InputboxComponent implements OnInit{
-    constructor(@Inject(MAT_DIALOG_DATA) private data:any,){}
-    
-    
-ngOnInit(): void {
-    console.log(this.data);
-}
-post(datas:any){
-console.log(datas);
-this.data.comments.push(datas.comment)
-}
+export class InputboxComponent implements OnInit {
+    constructor(@Inject(MAT_DIALOG_DATA) private data: any,) { }
+
+
+    ngOnInit(): void {
+        console.log(this.data);
+    }
+    post(datas: any) {
+        console.log(datas);
+        this.data.comments.push(datas.comment)
+    }
 }

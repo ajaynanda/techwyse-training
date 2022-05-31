@@ -28,17 +28,8 @@ export class WorkfrontComponent implements OnInit {
   showcomments: boolean = false;
   data: any;
   datas: any;
-
-  constructor(private dialog: MatDialog) {
-
-  }
-
+constructor(private dialog: MatDialog) {}
   ngOnInit(): void {
-    let canvas = new fabric.Canvas('canvas')
-    let images = document.getElementById('image') as HTMLCanvasElement
-    let image = new fabric.Image(images)
-    let myimg = image.set({ left: 0, top: 0, width: 150, height: 150 })
-    canvas.add(myimg)
   }
   showcomment(data: any) {
     console.log(data);
@@ -59,7 +50,7 @@ export class WorkfrontComponent implements OnInit {
     this.styles = true
     this.arrows = false
     let selectionbtnclicks = false
-    var canvas = new fabric.Canvas('canvas', { selection: false });
+    var canvas = new fabric.Canvas('canvas');
     let select1 = document.getElementById('select')
     select1?.addEventListener('click', selectionclicked)
     function selectionclicked() {
@@ -138,30 +129,6 @@ export class WorkfrontComponent implements OnInit {
       canvas.off('mouse:up', stoprect)
 
     }
-    //     let selectionCanvas =new fabric.Canvas('canvas',{selection:false})
-    // let select=document.getElementById('select')
-    // console.log(select);
-
-    // select?.addEventListener('click',selection)
-
-    //   function selection(){
-    //     selectionCanvas.on('mouse:down',selectionDown)
-    //     selectionCanvas.on('mouse:move',selectionMove)
-    //     selectionCanvas.on('mouse:up',selectionUp)
-
-    //   let onmousedown=false
-    //   function selectionDown(o:any){
-    //     onmousedown = true
-    //       let pointer = selectionCanvas.getPointer(o.e)
-    //       console.log(pointer);
-    //   }
-    //   function selectionMove(){
-
-    //   }
-    //   function selectionUp(){
-    // isDown=false
-    //   }
-    //   }
   }
   arrow() {
     this.styles = false
@@ -170,7 +137,7 @@ export class WorkfrontComponent implements OnInit {
     const arrowline = document.getElementById('arrowline')
     const deactivates = document.getElementById('deactivate')
     deactivates?.addEventListener('click', deactive)
-
+    let linebtn = false
     arrowline?.addEventListener('click', lines)
     function lines(): void {
       if (linebtn === false) {
@@ -184,14 +151,16 @@ export class WorkfrontComponent implements OnInit {
     let line: any
     let arrowhead1: any
     let mousedown = false
-    let linebtn = false
+  
     function start(o: any): void {
+      //start the line
       mousedown = true
       let pointer = canvas.getPointer(o.e)
       line = new fabric.Line([pointer.x, pointer.y, pointer.x, pointer.y], {
         stroke: 'red',
-        strokeWidth: 2,
+        strokeWidth: 1,
       })
+      //arrowhead style
       arrowhead1 = new fabric.Polygon([
         { x: 0, y: 0 },
         { x: -20, y: -10 },
@@ -207,11 +176,13 @@ export class WorkfrontComponent implements OnInit {
         originX: 'center',
         originY: 'center'
       })
+      //adding line and arrow to canvas
       canvas.add(line, arrowhead1)
       canvas.requestRenderAll()
     }
 
     const stop = () => {
+      //mouseup setting
       mousedown = false
       line.setCoords()
       this.arrowed = true
@@ -224,6 +195,7 @@ export class WorkfrontComponent implements OnInit {
       }
     }
     function move(o: any) {
+      //line drawing setting
       if (mousedown === true) {
         let pointer = canvas.getPointer(o.e)
         line.set({
@@ -233,8 +205,8 @@ export class WorkfrontComponent implements OnInit {
         arrowhead1.set({
           left: pointer.x,
           top: pointer.y,
-
         })
+        //arrowhead angle settings
         let x1 = line.x1
         let y1 = line.y1
         let x2 = pointer.x
@@ -277,21 +249,18 @@ export class WorkfrontComponent implements OnInit {
       }
     }
     function deactive() {
+      //deactivating the function
       canvas.off('mouse:down', start)
       canvas.off('mouse:move', move)
       canvas.off('mouse:up', stop)
-
       linebtn = false
     }
   }
   pointers() {
+    //navbar button
     this.styles = false
     this.arrows = false
     this.point = true
   }
-
-
-
-
 }
 

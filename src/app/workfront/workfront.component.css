@@ -1,4 +1,4 @@
-.nav{
+.nav {
     margin-top: 100px;
     text-align: center;
     color: blue;
@@ -7,14 +7,15 @@
     margin-right: 15px;
 }
 mat-card{
+    display: flex;
     margin: 25px;
     padding: 5px;
     width: 100%;
-
+}
+.comments{
+    margin: 10px auto;
 }
 img{
-    display:block;
-    margin: auto;
     padding: 5px;
 }
 input{
@@ -29,7 +30,6 @@ button{
 h4{
     margin-left: 50px;
 }
-
 .toolbar{
     background-color: aliceblue;
     margin: 10px auto;
@@ -38,10 +38,6 @@ h4{
     float: right;
     padding: 5px;
     margin: 5px;
-}
-canvas{
- position: fixed;
-    
 }
 mat-icon{
     margin-right: 20px;
@@ -57,11 +53,18 @@ mat-icon{
     cursor:normal;
 }
 .span{
-    display: block;
     float: right;
     top: -40px;
+    margin-top: 15px;
     margin-right: 20px;
 }
-#canvas-wrap { position:relative; }
-#canvas-wrap  canvas { position:absolute; top:0; left:0; z-index:0;border:1px solid black; }
-
+#canvas-wrap{
+    position: relative;
+}
+#canvas-wrap canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    border: 1px solid black;
+}
