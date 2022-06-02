@@ -8,6 +8,7 @@ const router = require("./router/router")
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const bodyParser = require("body-parser")
+const { post } = require("./router/router")
 app.use(session({
     secret:"secreykey",
     saveUninitialized:true,
@@ -21,6 +22,9 @@ app.use(bodyParser.urlencoded({extended:false}))
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+  
+    
+}))
 app.use("/",router)
 app.listen(4000,console.log("server connected"))
