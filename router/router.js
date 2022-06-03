@@ -365,12 +365,13 @@ router.get('/findteambyid/:id/:p/:c', ((req, res) => {
 }))
 router.get('/zipfile', ((req, res) => {
         zipcontroller.zipfile(req, res).then((result) => {
-                console.log(result);
                 res.status(200).json({
                         success: true,
                         message: 'File saved and zipped ',
                         zipfile: req.zipfile,
-                        buffer: req.imagebuffer
+                        url:req.url,
+                        buffer: req.imagebuffer,
+                        
                 })
         }).catch(err => {
                 console.log(err);
