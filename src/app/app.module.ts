@@ -46,6 +46,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { ToastModule } from '@syncfusion/ej2-angular-notifications';
 import { WorkfrontComponent } from './workfront/workfront.component';
 import { InputboxComponent } from './workfront/inputbox.component';
+import { ImageDownloadComponent } from './image-download/image-download.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,7 +63,8 @@ import { InputboxComponent } from './workfront/inputbox.component';
     TreeComponent,
     AddComponent,
     WorkfrontComponent,
-    InputboxComponent
+    InputboxComponent,
+    ImageDownloadComponent
 ],  
   imports: [
     BrowserModule,

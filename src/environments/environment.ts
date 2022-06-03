@@ -29,5 +29,6 @@ export const environment = {
   deletechild:'deletechild',
   arrayremoveitem:'arrayremoveitem',
   changearray:'changearray',
-  findteambyid:'findteambyid'
+  findteambyid:'findteambyid',
+  zip:'zipfile'
 };

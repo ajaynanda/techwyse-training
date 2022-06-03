@@ -41,13 +41,21 @@ export class ImageComponent implements OnInit {
         })
         const name = JSON.parse(localStorage.getItem('userdata') || '{}');
         const id = name._id
+        console.log(id);
+        
         this.http.getuserbyid(id).subscribe((res: any) => {
             this.user = res.data
+            console.log(this.user);
+            
         })
     }
     base64ToFile(data: any, filename: any) {
         const arr = data.split(',');
+        console.log(arr);
+        
         const mime = arr[0].match(/:(.*?);/)[1];
+        console.log(mime);
+        
         const bstr = atob(arr[1]);
         let n = bstr.length;
         let u8arr = new Uint8Array(n);

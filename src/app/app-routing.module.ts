@@ -13,6 +13,7 @@ import { RegisterComponent } from './register/register.component';
 import { UpdateComponent } from './update/update.component';
 import { UserlistComponent } from './userlist/userlist.component';
 import { WorkfrontComponent } from './workfront/workfront.component';
+import { ImageDownloadComponent } from './image-download/image-download.component';
 const routes: Routes = [
   { path: 'Login', component: LoginComponent},
   { path: 'Register', component: RegisterComponent },
@@ -25,7 +26,8 @@ const routes: Routes = [
   {path:'userlist',component:UserlistComponent,canActivate:[AuthGuard]},
   {path:'inline',component:InlineditComponent,canActivate:[AuthGuard]},
   {path:'tree',component:TreeComponent,canActivate:[AuthGuard]},
-  {path:'work',component:WorkfrontComponent}
+  {path:'work',component:WorkfrontComponent},
+  {path:'imagedownload',component:ImageDownloadComponent}
 ];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

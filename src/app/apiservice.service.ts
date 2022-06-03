@@ -124,5 +124,8 @@ export class ApiserviceService {
  findteambyid(id:any,p:any,c:any){
    return this.http.get(`${environment.findteambyid}/${id}/${p}/${c}`)
  }
+ zipfile(images:any){
+   return this.http.get(`${environment.zip}`,images)
+ }
 }
 
