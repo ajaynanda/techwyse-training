@@ -363,14 +363,16 @@ router.get('/findteambyid/:id/:p/:c', ((req, res) => {
                 res.status(500).json(err)
         })
 }))
-router.get('/zipfile', ((req, res) => {
+router.post('/zipfile', ((req, res) => {
         zipcontroller.zipfile(req, res).then((result) => {
+                console.log(result);
+                console.log(req.body)
                 res.status(200).json({
                         success: true,
                         message: 'File saved and zipped ',
                         zipfile: req.zipfile,
                         url:req.url,
-                        buffer: req.imagebuffer,
+                        data:result
                         
                 })
         }).catch(err => {

@@ -20,9 +20,10 @@ const adduser = ((req, res) => {
     })
 })
 const updateuser = ((req, res) => {
+    console.log(req.body);
     return new Promise((resolve, reject) => {
         const id = req.params.id
-        console.log(id);
+      
         const data = ({
             Email: req.body.email,
             Phone: req.body.phone,

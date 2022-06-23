@@ -68,7 +68,7 @@ const Register = ([
 })
 const Login = ((req, res) => {
     return new Promise((resolve, reject) => {
-
+console.log(req.body);
         Userdb.findOne({ Email: req.body.email }).then((user) => {
             if (!user) {
                 return reject({ Error: true, Message: "Email incorrect" })
