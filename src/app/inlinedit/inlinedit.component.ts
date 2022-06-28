@@ -38,6 +38,8 @@ reverse:boolean=false
     city:new FormControl('',[Validators.required])
   })
 update(id:any,data:any){
+  console.log(this.inlineForm.value);
+  
   this.http.inlineupdateuser(id,this.inlineForm.value).subscribe((res:any)=>{
     console.log(res);
     data.isEdit=false
